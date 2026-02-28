@@ -139,8 +139,11 @@ select { appearance: none; padding-right: 24px; }
 ::-webkit-scrollbar { height: 8px; width: 8px; }
 ::-webkit-scrollbar-thumb { background: rgba(11,18,32,0.06); border-radius: 8px; }
 
-/* Respect safe area on iOS */
-body { padding-top: 100px !important; }
+/* Account for fixed header in page content */
+.page {
+  padding-top: 110px !important;
+  padding-bottom: calc(110px + var(--safe-bottom)) !important;
+}
 
 /* ═══════════════════════════════════════════ */
 /* RESPONSIVE DESIGN */
@@ -155,7 +158,7 @@ body { padding-top: 100px !important; }
   .nav-tab { width: 55px !important; font-size: 8px !important; }
   .nav-tab-icon { font-size: 20px !important; }
   #bottom-nav { width: calc(100% - 24px) !important; left: 12px !important; transform: translateX(0) !important; }
-  .page { padding: 0 0 100px 0 !important; }
+  .page { padding-top: 100px !important; padding-bottom: 100px !important; }
 }
 
 /* Standard mobile (380px - 480px) */
@@ -166,7 +169,7 @@ body { padding-top: 100px !important; }
   .link-title { font-size: 13px !important; }
   .nav-tab { width: 65px !important; }
   #bottom-nav { width: auto !important; padding: 0 8px !important; }
-  .page { padding: 0 0 110px 0 !important; }
+  .page { padding-top: 110px !important; padding-bottom: 110px !important; }
 }
 
 /* Tablets & larger (481px+) */
@@ -176,13 +179,13 @@ body { padding-top: 100px !important; }
   .link-card-body { padding: 14px !important; }
   #bottom-nav { width: fit-content !important; padding: 0 12px !important; }
   .nav-tab { width: 70px !important; padding: 0 2px !important; }
-  .page { padding: 0 0 120px 0 !important; }
+  .page { padding-top: 120px !important; padding-bottom: 120px !important; }
 }
 
 /* Landscape orientation adjustments */
 @media (orientation: landscape) and (max-height: 500px) {
   #header { padding-top: max(15px, env(safe-area-inset-top)) !important; padding-bottom: 10px !important; }
-  .page { padding: 0 0 80px 0 !important; }
+  .page { padding-top: 80px !important; padding-bottom: 80px !important; }
   #bottom-nav { bottom: 10px !important; height: 45px !important; }
   .nav-tab { width: 55px !important; height: 45px !important; }
   .nav-tab-icon { font-size: 18px !important; }
