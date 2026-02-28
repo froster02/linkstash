@@ -61,6 +61,8 @@
       max-width: 480px;
       margin: 0 auto;
       position: relative;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     /* ── HEADER ── */
@@ -128,12 +130,12 @@
       inset: 0;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      padding: 0 0 calc(80px + var(--safe-bottom)) 0;
+      padding: 0 0 calc(110px + var(--safe-bottom)) 0;
       opacity: 0;
       pointer-events: none;
       transform: translateY(12px);
       transition: opacity 0.25s ease, transform 0.25s ease;
-    }
+    }}
 
     .page.active {
       opacity: 1;
