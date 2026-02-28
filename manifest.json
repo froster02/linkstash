@@ -2,7 +2,7 @@
   "name": "LinkStash",
   "short_name": "LinkStash",
   "description": "Your personal link vault",
-  "start_url": "/index.html",
+  "start_url": "/linkstash/",
   "display": "standalone",
   "background_color": "#0c0c0f",
   "theme_color": "#0c0c0f",
@@ -22,7 +22,7 @@
     }
   ],
   "share_target": {
-    "action": "/index.html",
+    "action": "/linkstash/",
     "method": "GET",
     "params": {
       "title": "title",

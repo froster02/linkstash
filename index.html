@@ -8,6 +8,7 @@
   <meta name="apple-mobile-web-app-title" content="LinkStash" />
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-192.png" />
+  <base href="/linkstash/">
   <title>LinkStash</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Clash+Display:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
@@ -446,8 +447,26 @@
 
     .link-card-top {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 10px;
+    }
+    .link-title-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .open-icon {
+      font-size: 14px;
+      color: var(--text2);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .open-icon:hover {
+      color: var(--text);
+    }
+    .open-icon:active {
+      transform: scale(0.95);
     }
 
     .link-favicon {
@@ -738,6 +757,7 @@
     .tag-link     { background: var(--green-glow); color:var(--green); border:1px solid rgba(0,255,136,0.2); }
 
   </style>
+  <link rel="stylesheet" href="apple.css" />
 </head>
 <body>
 
@@ -763,7 +783,7 @@
         <div class="home-inner">
           <div class="save-section">
             <div class="save-label">// paste a link</div>
-            <textarea id="link-input" placeholder="https://...&#10;&#10;Paste any URL here — article, video, tweet, repo..." rows="3"></textarea>
+            <textarea id="link-input" placeholder="Paste any URL here — article, video, tweet, repo..." rows="3"></textarea>
 
             <div id="preview-box">
               <div id="preview-favicon"><span id="preview-emoji">🔗</span></div>
@@ -779,8 +799,8 @@
             </div>
 
             <div class="input-actions">
-              <button id="paste-btn" onclick="pasteFromClipboard()">📋 Paste</button>
-              <button id="save-btn" onclick="handleSave()">
+              <button id="paste-btn">📋 Paste</button>
+              <button id="save-btn">
                 <span id="save-btn-text">Save Link</span>
               </button>
             </div>
@@ -799,21 +819,21 @@
       <div class="feed-top">
         <div id="search-wrap">
           <span id="search-icon">🔍</span>
-          <input type="text" id="search-input" placeholder="Search links, tags, domains..." oninput="renderFeed()" />
+          <input type="text" id="search-input" placeholder="Search links, tags, domains..." />
         </div>
         <div id="filter-scroll">
-          <div class="filter-pill active" data-filter="all" onclick="setFilter('all',this)">All</div>
-          <div class="filter-pill" data-filter="youtube"  onclick="setFilter('youtube',this)">🎥 YouTube</div>
-          <div class="filter-pill" data-filter="twitter"  onclick="setFilter('twitter',this)">🐦 Twitter</div>
-          <div class="filter-pill" data-filter="github"   onclick="setFilter('github',this)">💻 GitHub</div>
-          <div class="filter-pill" data-filter="article"  onclick="setFilter('article',this)">📰 Article</div>
-          <div class="filter-pill" data-filter="docs"     onclick="setFilter('docs',this)">📄 Docs</div>
-          <div class="filter-pill" data-filter="spotify"  onclick="setFilter('spotify',this)">🎵 Spotify</div>
-          <div class="filter-pill" data-filter="instagram"onclick="setFilter('instagram',this)">📸 Instagram</div>
-          <div class="filter-pill" data-filter="reddit"   onclick="setFilter('reddit',this)">🤖 Reddit</div>
-          <div class="filter-pill" data-filter="shopping" onclick="setFilter('shopping',this)">🛍 Shopping</div>
-          <div class="filter-pill" data-filter="linkedin" onclick="setFilter('linkedin',this)">💼 LinkedIn</div>
-          <div class="filter-pill" data-filter="link"     onclick="setFilter('link',this)">🔗 Other</div>
+          <div class="filter-pill active" data-filter="all">All</div>
+          <div class="filter-pill" data-filter="youtube">🎥 YouTube</div>
+          <div class="filter-pill" data-filter="twitter">🐦 Twitter</div>
+          <div class="filter-pill" data-filter="github">💻 GitHub</div>
+          <div class="filter-pill" data-filter="article">📰 Article</div>
+          <div class="filter-pill" data-filter="docs">📄 Docs</div>
+          <div class="filter-pill" data-filter="spotify">🎵 Spotify</div>
+          <div class="filter-pill" data-filter="instagram">📸 Instagram</div>
+          <div class="filter-pill" data-filter="reddit">🤖 Reddit</div>
+          <div class="filter-pill" data-filter="shopping">🛍 Shopping</div>
+          <div class="filter-pill" data-filter="linkedin">💼 LinkedIn</div>
+          <div class="filter-pill" data-filter="link">🔗 Other</div>
         </div>
       </div>
       <div id="feed-stats"></div>
@@ -835,8 +855,8 @@
               <input type="password" class="settings-input" id="gist-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
               <div id="gist-status" class="gist-status"></div>
               <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
-                <button class="settings-btn green" onclick="saveGistToken()">Save & Connect</button>
-                <button class="settings-btn green" onclick="syncNow()" id="sync-btn">Sync Now <span id="sync-dot"></span></button>
+                <button id="save-gist-btn" class="settings-btn green">Save & Connect</button>
+                <button id="sync-btn" class="settings-btn green">Sync Now <span id="sync-dot"></span></button>
               </div>
             </div>
           </div>
@@ -845,26 +865,31 @@
         <div class="settings-section">
           <div class="settings-title">// Data</div>
           <div class="settings-card">
-            <div class="settings-row">
-              <div>
+            <div class="settings-row" style="flex-wrap:wrap;align-items:center;">
+              <div style="flex:1;min-width:200px;">
                 <div class="settings-row-label">Export Links</div>
-                <div class="settings-row-sub">Download all your links as JSON</div>
+                <div class="settings-row-sub">Download all your links in JSON, CSV (Excel) or plain‑text format</div>
               </div>
-              <button class="settings-btn green" onclick="exportLinks()">Export</button>
+              <select id="export-format" class="settings-input" style="width:auto;min-width:120px;margin-right:8px;">
+                <option value="json">JSON</option>
+                <option value="csv">CSV (Excel)</option>
+                <option value="txt">Plain text</option>
+              </select>
+              <button id="export-btn" class="settings-btn green">Export</button>
             </div>
             <div class="settings-row">
               <div>
                 <div class="settings-row-label">Import Links</div>
                 <div class="settings-row-sub">Import from a JSON backup file</div>
               </div>
-              <button class="settings-btn green" onclick="document.getElementById('import-file').click()">Import</button>
+              <button id="import-btn" class="settings-btn green">Import</button>
             </div>
             <div class="settings-row">
               <div>
                 <div class="settings-row-label">Clear All Data</div>
                 <div class="settings-row-sub">Delete all saved links permanently</div>
               </div>
-              <button class="settings-btn red" onclick="clearAll()">Clear</button>
+              <button id="clear-btn" class="settings-btn red">Clear</button>
             </div>
           </div>
           <input type="file" id="import-file" accept=".json" style="display:none" onchange="importLinks(event)" />
@@ -874,13 +899,19 @@
           <div class="settings-title">// Install as App</div>
           <div class="settings-card">
             <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px;">
-              <div class="settings-row-label">Add to iPhone Home Screen</div>
+              <div class="settings-row-label">Add to Home Screen</div>
               <div class="settings-row-sub" style="line-height:1.7;">
+                <strong>iPhone (Safari)</strong><br>
                 1. Open this page in <b style="color:var(--text);">Safari</b><br>
                 2. Tap the <b style="color:var(--text);">Share</b> button (□↑)<br>
                 3. Scroll down → tap <b style="color:var(--text);">"Add to Home Screen"</b><br>
                 4. Tap <b style="color:var(--text);">Add</b> — done! ✓<br><br>
-                <span style="color:var(--text3);">Then share any link from Safari → tap LinkStash in the share sheet → it auto-opens and pastes!</span>
+                <strong>Android (Chrome/Firefox)</strong><br>
+                1. Open this page in your browser<br>
+                2. Tap the menu (︙ or ⋮) or the three‑dot icon<br>
+                3. Choose <b style="color:var(--text);">"Add to Home screen"</b> or <b style="color:var(--text);">"Install app"</b><br>
+                4. Confirm/add — the app icon will appear on your home screen<br><br>
+                <span style="color:var(--text3);">After installing, you can share links from Safari/Chrome and select LinkStash to auto-open and paste!</span>
               </div>
             </div>
           </div>
@@ -897,16 +928,16 @@
 
   <!-- BOTTOM NAV -->
   <div id="bottom-nav">
-    <div class="nav-tab active" data-page="home" onclick="switchPage('home', this)">
+    <div class="nav-tab active" data-page="home">
       <div class="nav-tab-icon">🏠</div>
       <span>Home</span>
     </div>
-    <div class="nav-tab" data-page="feed" onclick="switchPage('feed', this)">
+    <div class="nav-tab" data-page="feed">
       <div class="nav-tab-icon">📂</div>
       <span>Feed</span>
       <div class="nav-badge" id="feed-badge"></div>
     </div>
-    <div class="nav-tab" data-page="settings" onclick="switchPage('settings', this)">
+    <div class="nav-tab" data-page="settings">
       <div class="nav-tab-icon">⚙️</div>
       <span>Settings</span>
     </div>
@@ -919,7 +950,7 @@
 
 <script>
 // ═══════════════════════════════════════════
-// STATE
+// STATE (data + element cache)
 // ═══════════════════════════════════════════
 let links = [];
 let currentFilter = 'all';
@@ -928,6 +959,30 @@ let selectedTag = '';
 let gistId = null;
 let gistToken = null;
 
+// frequently used elements (cached)
+const elLinkInput = document.getElementById('link-input');
+const elPreviewBox = document.getElementById('preview-box');
+const elTagRow = document.getElementById('tag-row');
+const elTotalCount = document.getElementById('total-count');
+const elFeedBadge = document.getElementById('feed-badge');
+const elRecentList = document.getElementById('recent-list');
+const elFeedList = document.getElementById('feed-list');
+const elSearchInput = document.getElementById('search-input');
+const elToast = document.getElementById('toast');
+const elGistTokenInput = document.getElementById('gist-token-input');
+const elGistStatus = document.getElementById('gist-status');
+const elSyncDot = document.getElementById('sync-dot');
+const elImportBtn = document.getElementById('import-btn');
+const elImportFile = document.getElementById('import-file');
+const elFeedStats = document.getElementById('feed-stats');
+// preview fields
+const elPreviewEmoji = document.getElementById('preview-emoji');
+const elPreviewType  = document.getElementById('preview-type');
+const elPreviewDomain= document.getElementById('preview-domain');
+const elPreviewFavicon = document.getElementById('preview-favicon');
+const elPreviewTitle = document.getElementById('preview-title');
+
+
 // ═══════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════
@@ -935,15 +990,41 @@ function init() {
   loadFromStorage();
   gistToken = localStorage.getItem('ls_gist_token') || '';
   gistId    = localStorage.getItem('ls_gist_id') || '';
-  if (gistToken) document.getElementById('gist-token-input').value = gistToken;
+  if (gistToken) elGistTokenInput.value = gistToken;
 
   updateUI();
+
+  // attach event listeners
+  elSearchInput.addEventListener('input', renderFeed);
+  elLinkInput.addEventListener('input', function() {
+    const val = this.value.trim();
+    if (val.startsWith('http')) analyzeUrl(val);
+    else { elPreviewBox.classList.remove('visible'); elTagRow.classList.remove('visible'); }
+  });
+  document.getElementById('paste-btn').addEventListener('click', pasteFromClipboard);
+  document.getElementById('save-btn').addEventListener('click', handleSave);
+  elImportBtn.addEventListener('click', () => elImportFile.click());
+  document.getElementById('save-gist-btn').addEventListener('click', saveGistToken);
+  document.getElementById('export-btn').addEventListener('click', exportLinks);
+  document.getElementById('clear-btn').addEventListener('click', clearAll);
+
+  // filter pills delegation
+  document.getElementById('filter-scroll').addEventListener('click', e => {
+    const pill = e.target.closest('.filter-pill');
+    if (pill) setFilter(pill.dataset.filter, pill);
+  });
+
+  // bottom nav delegation
+  document.getElementById('bottom-nav').addEventListener('click', e => {
+    const tab = e.target.closest('.nav-tab');
+    if (tab) switchPage(tab.dataset.page, tab);
+  });
 
   // Check if opened via share sheet (URL params)
   const params = new URLSearchParams(window.location.search);
   const sharedUrl = params.get('url') || params.get('text') || params.get('title');
   if (sharedUrl) {
-    document.getElementById('link-input').value = sharedUrl;
+    elLinkInput.value = sharedUrl;
     analyzeUrl(sharedUrl);
     showToast('📥 Link received from share!', 'success');
   }
@@ -1012,17 +1093,17 @@ function analyzeUrl(url) {
   detectedType = info.type;
 
   // Update preview
-  const box = document.getElementById('preview-box');
+  const box = elPreviewBox;
   box.classList.add('visible');
 
-  document.getElementById('preview-emoji').textContent = info.emoji;
-  document.getElementById('preview-type').textContent = info.label;
-  document.getElementById('preview-domain').textContent = getDomain(url);
+  elPreviewEmoji.textContent = info.emoji;
+  elPreviewType.textContent = info.label;
+  elPreviewDomain.textContent = getDomain(url);
 
   // Try loading favicon as img
   const faviconUrl = getFaviconUrl(url);
   if (faviconUrl) {
-    const faviconDiv = document.getElementById('preview-favicon');
+    const faviconDiv = elPreviewFavicon;
     faviconDiv.innerHTML = `<img src="${faviconUrl}" onerror="this.parentElement.innerHTML='${info.emoji}'" />`;
   }
 
@@ -1032,11 +1113,11 @@ function analyzeUrl(url) {
     const parts = path.split('/').filter(Boolean);
     const last = parts[parts.length - 1] || '';
     const guessedTitle = decodeURIComponent(last.replace(/[-_]/g, ' ')).replace(/\.[^.]+$/, '') || getDomain(url);
-    document.getElementById('preview-title').textContent = guessedTitle.length > 60
+    elPreviewTitle.textContent = guessedTitle.length > 60
       ? guessedTitle.slice(0, 60) + '…'
       : guessedTitle || 'Untitled';
   } catch {
-    document.getElementById('preview-title').textContent = getDomain(url);
+    elPreviewTitle.textContent = getDomain(url);
   }
 
   // Build tag suggestions
@@ -1061,7 +1142,7 @@ function buildTagSuggestions(type) {
   const suggestions = TAG_SUGGESTIONS[type] || TAG_SUGGESTIONS.link;
   selectedTag = suggestions[0];
 
-  const row = document.getElementById('tag-row');
+  const row = elTagRow;
   row.innerHTML = `<span style="font-size:10px;color:var(--text3);letter-spacing:1px;width:100%;margin-bottom:4px;">TAG</span>`;
 
   suggestions.forEach(tag => {
@@ -1072,7 +1153,7 @@ function buildTagSuggestions(type) {
       selectedTag = tag;
       document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('selected'));
       chip.classList.add('selected');
-      document.getElementById('custom-tag').value = '';
+      customInput.value = '';
     };
     row.appendChild(chip);
   });
@@ -1099,7 +1180,7 @@ async function pasteFromClipboard() {
   try {
     const text = await navigator.clipboard.readText();
     if (text) {
-      document.getElementById('link-input').value = text;
+      elLinkInput.value = text;
       analyzeUrl(text.trim());
     }
   } catch {
@@ -1108,13 +1189,13 @@ async function pasteFromClipboard() {
 }
 
 // Watch for input changes
-document.getElementById('link-input').addEventListener('input', function() {
+elLinkInput.addEventListener('input', function() {
   const val = this.value.trim();
   if (val.startsWith('http')) {
     analyzeUrl(val);
   } else {
-    document.getElementById('preview-box').classList.remove('visible');
-    document.getElementById('tag-row').classList.remove('visible');
+    elPreviewBox.classList.remove('visible');
+    elTagRow.classList.remove('visible');
   }
 });
 
@@ -1122,7 +1203,7 @@ document.getElementById('link-input').addEventListener('input', function() {
 // SAVE LINK
 // ═══════════════════════════════════════════
 async function handleSave() {
-  const raw = document.getElementById('link-input').value.trim();
+  const raw = elLinkInput.value.trim();
   if (!raw) { showToast('⚠️ Paste a URL first', 'error'); return; }
 
   let url = raw;
@@ -1150,8 +1231,8 @@ async function handleSave() {
   saveToStorage();
 
   // Clear input
-  document.getElementById('link-input').value = '';
-  document.getElementById('preview-box').classList.remove('visible');
+  elLinkInput.value = '';
+  elPreviewBox.classList.remove('visible');
   document.getElementById('tag-row').classList.remove('visible');
   selectedTag = '';
 
@@ -1178,19 +1259,62 @@ function updateUI() {
   renderFeed();
 }
 
+function createCardElement(l) {
+  const div = document.createElement('div');
+  div.className = 'link-card';
+  div.id = `card-${l.id}`;
+  const timeAgo = getTimeAgo(l.saved);
+  const faviconUrl = getFaviconUrl(l.url);
+  const faviconHtml = faviconUrl
+    ? `<img src="${faviconUrl}" onerror="this.parentElement.innerHTML='${l.emoji}'" />`
+    : l.emoji;
+
+  div.innerHTML = `
+      <div class="link-card-accent accent-${l.type}"></div>
+      <div class="link-card-body">
+        <div class="link-card-top">
+          <div class="link-favicon">${faviconHtml}</div>
+          <div class="link-title-container">
+            <div class="link-title">${escHtml(l.title)}</div>
+            <a class="open-icon" href="${l.url}" target="_blank" title="Open link">Open</a>
+          </div>
+        </div>
+        <div class="link-card-meta">
+          <span class="link-domain">${l.domain}</span>
+          <span class="link-tag tag-${l.type}">${l.tag}</span>
+          <span class="link-time">${timeAgo}</span>
+        </div>
+        <div class="link-card-actions">
+          <span class="link-type-badge">${l.typeLabel}</span>
+          <div class="card-btns">
+            <button class="card-btn" data-action="copy">⎘</button>
+            <button class="card-btn del" data-action="delete">✕</button>
+          </div>
+        </div>
+      </div>
+    `;
+  // attach listeners to buttons
+  const copyBtn = div.querySelector('button[data-action="copy"]');
+  const delBtn = div.querySelector('button[data-action="delete"]');
+  if (copyBtn) copyBtn.addEventListener('click', () => copyLink(l.url));
+  if (delBtn) delBtn.addEventListener('click', () => deleteLink(l.id));
+  return div;
+}
+
 function renderRecent() {
-  const container = document.getElementById('recent-list');
+  const container = elRecentList;
   const recent = links.slice(0, 3);
   if (!recent.length) {
     container.innerHTML = '<div class="empty-state" style="padding:20px 30px;"><div class="empty-sub">No links saved yet.<br>Paste your first link above! 👆</div></div>';
     return;
   }
-  container.innerHTML = recent.map(l => renderCard(l)).join('');
+  container.innerHTML = '';
+  recent.forEach(l => container.appendChild(createCardElement(l)));
 }
 
 function renderFeed() {
-  const container = document.getElementById('feed-list');
-  const query = document.getElementById('search-input')?.value.toLowerCase() || '';
+  const container = elFeedList;
+  const query = elSearchInput?.value.toLowerCase() || '';
 
   let filtered = [...links];
   if (currentFilter !== 'all') filtered = filtered.filter(l => l.type === currentFilter);
@@ -1203,7 +1327,7 @@ function renderFeed() {
     );
   }
 
-  document.getElementById('feed-stats').textContent =
+  elFeedStats.textContent =
     filtered.length !== links.length
       ? `Showing ${filtered.length} of ${links.length} links`
       : `${links.length} links saved`;
@@ -1217,41 +1341,11 @@ function renderFeed() {
     return;
   }
 
-  container.innerHTML = filtered.map(l => renderCard(l)).join('');
+  container.innerHTML = '';
+  filtered.forEach(l => container.appendChild(createCardElement(l)));
 }
 
-function renderCard(l) {
-  const timeAgo = getTimeAgo(l.saved);
-  const faviconUrl = getFaviconUrl(l.url);
-  const faviconHtml = faviconUrl
-    ? `<img src="${faviconUrl}" onerror="this.parentElement.innerHTML='${l.emoji}'" />`
-    : l.emoji;
 
-  return `
-    <div class="link-card" id="card-${l.id}">
-      <div class="link-card-accent accent-${l.type}"></div>
-      <div class="link-card-body">
-        <div class="link-card-top">
-          <div class="link-favicon">${faviconHtml}</div>
-          <div class="link-title">${escHtml(l.title)}</div>
-        </div>
-        <div class="link-card-meta">
-          <span class="link-domain">${l.domain}</span>
-          <span class="link-tag tag-${l.type}">${l.tag}</span>
-          <span class="link-time">${timeAgo}</span>
-        </div>
-        <div class="link-card-actions">
-          <span class="link-type-badge">${l.typeLabel}</span>
-          <div class="card-btns">
-            <a class="card-btn" href="${l.url}" target="_blank" title="Open link">↗</a>
-            <button class="card-btn" onclick="copyLink('${escAttr(l.url)}')" title="Copy URL">⎘</button>
-            <button class="card-btn del" onclick="deleteLink(${l.id})" title="Delete">✕</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-}
 
 function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function escAttr(s) { return s.replace(/'/g,"\\'"); }
@@ -1407,11 +1501,30 @@ async function syncNow() {
 // EXPORT / IMPORT / CLEAR
 // ═══════════════════════════════════════════
 function exportLinks() {
-  const data = JSON.stringify({ links, exported: new Date().toISOString() }, null, 2);
-  const blob = new Blob([data], { type: 'application/json' });
+  const format = document.getElementById('export-format')?.value || 'json';
+  let data, mime, filename;
+  if (format === 'csv') {
+    const header = ['url','title','domain','type','tag','saved','read'];
+    const rows = links.map(l => header.map(k => {
+      let v = l[k] || '';
+      return '"' + String(v).replace(/"/g,'""') + '"';
+    }).join(','));
+    data = [header.join(','), ...rows].join('\n');
+    mime = 'text/csv';
+    filename = 'linkstash-export.csv';
+  } else if (format === 'txt') {
+    data = links.map(l => l.url).join('\n');
+    mime = 'text/plain';
+    filename = 'linkstash-export.txt';
+  } else {
+    data = JSON.stringify({ links, exported: new Date().toISOString() }, null, 2);
+    mime = 'application/json';
+    filename = 'linkstash-export.json';
+  }
+  const blob = new Blob([data], { type: mime });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'linkstash-export.json';
+  a.download = filename;
   a.click();
   showToast('📥 Export downloaded!', 'success');
 }
