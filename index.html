@@ -135,7 +135,7 @@
       pointer-events: none;
       transform: translateY(12px);
       transition: opacity 0.25s ease, transform 0.25s ease;
-    }}
+    }
 
     .page.active {
       opacity: 1;
@@ -1415,13 +1415,39 @@ function showToast(msg, type) {
 // ═══════════════════════════════════════════
 // GITHUB GIST SYNC
 // ═══════════════════════════════════════════
+async function findExistingGist(token) {
+  try {
+    const res = await fetch('https://api.github.com/gists', {
+      headers: { 'Authorization': `token ${token}` }
+    });
+    if (!res.ok) return null;
+    const gists = await res.json();
+    const existing = gists.find(g => g.description === 'LinkStash — My saved links' && g.files['linkstash.json']);
+    return existing || null;
+  } catch(e) {
+    return null;
+  }
+}
+
 async function saveGistToken() {
   const token = document.getElementById('gist-token-input').value.trim();
   if (!token) { showToast('⚠️ Enter a token first', 'error'); return; }
   gistToken = token;
   localStorage.setItem('ls_gist_token', token);
-  showToast('🔐 Token saved! Testing...', '');
-  await syncToGist();
+  showToast('🔐 Token saved! Searching for existing gist...', '');
+  const existing = await findExistingGist(token);
+  if (existing) {
+    gistId = existing.id;
+    localStorage.setItem('ls_gist_id', gistId);
+    showToast('✓ Connected to existing gist!', 'success');
+    const statusEl = document.getElementById('gist-status');
+    statusEl.textContent = `✓ Connected · Gist ID: ${gistId}`;
+    statusEl.className = 'gist-status ok';
+    await syncFromGist();
+  } else {
+    showToast('Creating new gist...', '');
+    await syncToGist();
+  }
 }
 
 function setSyncStatus(s) {
@@ -1483,11 +1509,19 @@ async function syncFromGist() {
     const content = json.files?.['linkstash.json']?.content;
     if (content) {
       const parsed = JSON.parse(content);
-      if (parsed.links && parsed.links.length > links.length) {
-        links = parsed.links;
-        saveToStorage();
-        updateUI();
-        showToast('🔄 Synced from cloud', 'success');
+      if (parsed.links && Array.isArray(parsed.links)) {
+        // Only update if gist has different data (merge strategy)
+        const cloudHash = JSON.stringify(parsed.links).slice(0, 50);
+        const localHash = JSON.stringify(links).slice(0, 50);
+        if (cloudHash !== localHash) {
+          // Merge: keep local + add missing cloud links
+          const existingIds = new Set(links.map(l => l.id));
+          const newLinks = parsed.links.filter(l => !existingIds.has(l.id));
+          links = [...links, ...newLinks].sort((a, b) => new Date(b.saved) - new Date(a.saved));
+          saveToStorage();
+          updateUI();
+          if (newLinks.length > 0) showToast(`🔄 Synced ${newLinks.length} new link(s)`, 'success');
+        }
       }
     }
   } catch(e) {}
