@@ -14,7 +14,7 @@ A fast, beautiful, offline-first link manager for your home screen. Save, organi
 
 ## 📂 Project Files
 
-```
+```text
 index.html      ← Main app (HTML structure)
 apple.css       ← Apple-inspired dark theme + responsive layout
 sw.js           ← Service worker (offline support)
@@ -29,7 +29,7 @@ icon-512.png    ← App icon (splash screen)
 
 ### Step 1: Create a GitHub Repository
 
-1. Go to https://github.com/new
+1. Go to <https://github.com/new>
 2. Name it: `linkstash`
 3. Set to **Public** (required for free GitHub Pages)
 4. Click **Create repository**
@@ -37,6 +37,7 @@ icon-512.png    ← App icon (splash screen)
 ### Step 2: Upload Files
 
 Click **"Upload Files"** and add all 6 files:
+
 - `index.html`
 - `apple.css`
 - `manifest.json`
@@ -58,8 +59,6 @@ Then commit changes.
 
 ## 📲 Install on iPhone
 
-## 📲 Install on iPhone
-
 1. Open the app URL in **Safari**
 2. Tap **Share** (⬆️ in bottom bar)
 3. Scroll down → tap **"Add to Home Screen"**
@@ -72,6 +71,7 @@ Done! LinkStash is now on your home screen like a native app.
 ## 💡 How to Use
 
 ### Save Links (Home Tab)
+
 1. Open any webpage in Safari
 2. Tap **Share** → find **LinkStash** in the list
 3. The URL appears in LinkStash instantly
@@ -79,16 +79,19 @@ Done! LinkStash is now on your home screen like a native app.
 5. Tap **Save**
 
 ### Browse Links (Discover Tab)
+
 - **Search** — Find links by title, domain, or tags
 - **Filter** — Sort by type, date, or tags
 - **Tap a link** — Opens in new tab
 
 ### Organize (Feed Tab)
+
 - View all saved links with metadata
 - See domain, saved time, and custom tags
 - Delete or share links
 
 ### Settings Tab
+
 - **Dark mode** — Always on (Apple-inspired dark theme)
 - **Cloud sync** — Optional GitHub Gist integration
 - **Data export** — Download your links as JSON
@@ -99,7 +102,7 @@ Done! LinkStash is now on your home screen like a native app.
 
 Keep your links in sync across all your devices:
 
-1. Go to https://github.com/settings/tokens/new
+1. Go to <https://github.com/settings/tokens/new>
 2. Create a new token with note `LinkStash`
 3. Check only the `gist` scope
 4. Click **Generate token** and copy it
@@ -129,6 +132,7 @@ This is an open-source project. Feel free to fork, modify, and deploy!
 ## 🎨 Design
 
 LinkStash features a modern Apple-inspired dark interface with:
+
 - Clean typography using system fonts
 - Subtle shadows and glass-morphism effects
 - Smooth animations and transitions

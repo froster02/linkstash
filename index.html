@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -10,37 +11,46 @@
   <link rel="apple-touch-icon" href="icon-192.png" />
   <base href="/linkstash/">
   <title>LinkStash</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Clash+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Clash+Display:wght@500;600;700&display=swap"
+    rel="stylesheet" />
   <style>
     :root {
-      --bg:       #0c0c0f;
-      --bg2:      #13131a;
-      --bg3:      #1a1a24;
-      --bg4:      #22222f;
-      --border:   #2a2a3a;
-      --border2:  #363648;
-      --green:    #00ff88;
-      --green-d:  #00cc6a;
-      --green-glow: rgba(0,255,136,0.12);
-      --green-glow2: rgba(0,255,136,0.06);
-      --text:     #f0f0f5;
-      --text2:    #8888aa;
-      --text3:    #44445a;
-      --red:      #ff4757;
-      --yellow:   #ffd166;
-      --blue:     #4ecdc4;
-      --purple:   #c77dff;
-      --orange:   #ff8c42;
-      --pink:     #ff6b9d;
-      --mono:     'JetBrains Mono', monospace;
-      --head:     'Clash Display', 'JetBrains Mono', monospace;
-      --radius:   14px;
+      --bg: #0c0c0f;
+      --bg2: #13131a;
+      --bg3: #1a1a24;
+      --bg4: #22222f;
+      --border: #2a2a3a;
+      --border2: #363648;
+      --green: #00ff88;
+      --green-d: #00cc6a;
+      --green-glow: rgba(0, 255, 136, 0.12);
+      --green-glow2: rgba(0, 255, 136, 0.06);
+      --text: #f0f0f5;
+      --text2: #8888aa;
+      --text3: #44445a;
+      --red: #ff4757;
+      --yellow: #ffd166;
+      --blue: #4ecdc4;
+      --purple: #c77dff;
+      --orange: #ff8c42;
+      --pink: #ff6b9d;
+      --mono: 'JetBrains Mono', monospace;
+      --head: 'Clash Display', 'JetBrains Mono', monospace;
+      --radius: 14px;
       --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-    html { height: 100%; }
+    html {
+      height: 100%;
+    }
 
     body {
       background: var(--bg);
@@ -88,12 +98,15 @@
     }
 
     #logo-icon {
-      width: 34px; height: 34px;
+      width: 34px;
+      height: 34px;
       background: var(--green);
       border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 18px;
-      box-shadow: 0 0 20px rgba(0,255,136,0.3);
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
       flex-shrink: 0;
     }
 
@@ -104,7 +117,9 @@
       letter-spacing: -0.5px;
     }
 
-    #logo h1 span { color: var(--green); }
+    #logo h1 span {
+      color: var(--green);
+    }
 
     #link-count-chip {
       background: var(--bg3);
@@ -116,7 +131,9 @@
       font-family: var(--mono);
     }
 
-    #link-count-chip b { color: var(--green); }
+    #link-count-chip b {
+      color: var(--green);
+    }
 
     /* ── PAGES ── */
     #pages {
@@ -143,12 +160,18 @@
       transform: none;
     }
 
-    .page::-webkit-scrollbar { display: none; }
+    .page::-webkit-scrollbar {
+      display: none;
+    }
 
     /* ── HOME PAGE ── */
-    #page-home { padding-top: 24px; }
+    #page-home {
+      padding-top: 24px;
+    }
 
-    .home-inner { padding: 0 20px; }
+    .home-inner {
+      padding: 0 20px;
+    }
 
     .save-section {
       background: var(--bg2);
@@ -163,7 +186,9 @@
     .save-section::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 2px;
       background: linear-gradient(90deg, transparent, var(--green), transparent);
     }
@@ -192,7 +217,9 @@
       display: block;
     }
 
-    #link-input::placeholder { color: var(--text3); }
+    #link-input::placeholder {
+      color: var(--text3);
+    }
 
     #link-input:focus {
       border-color: var(--green);
@@ -215,11 +242,15 @@
       font-family: var(--mono);
       font-size: 12px;
       cursor: pointer;
-      display: flex; align-items: center; gap: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
       transition: all 0.15s;
     }
 
-    #paste-btn:active { background: var(--bg4); }
+    #paste-btn:active {
+      background: var(--bg4);
+    }
 
     #save-btn {
       flex: 1;
@@ -234,19 +265,38 @@
       cursor: pointer;
       letter-spacing: 0.5px;
       transition: all 0.15s;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      box-shadow: 0 4px 20px rgba(0,255,136,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(0, 255, 136, 0.25);
     }
 
-    #save-btn:active { transform: scale(0.97); background: var(--green-d); }
-    #save-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    #save-btn.loading { opacity: 0.7; }
+    #save-btn:active {
+      transform: scale(0.97);
+      background: var(--green-d);
+    }
+
+    #save-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    #save-btn.loading {
+      opacity: 0.7;
+    }
 
     /* saving animation */
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
     .spinner {
-      width: 14px; height: 14px;
-      border: 2px solid rgba(0,0,0,0.2);
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(0, 0, 0, 0.2);
       border-top-color: var(--bg);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
@@ -263,26 +313,71 @@
       animation: slideUp 0.2s ease;
     }
 
-    @keyframes slideUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
 
-    #preview-box.visible { display: flex; gap: 12px; align-items: flex-start; }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    #preview-box.visible {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
 
     #preview-favicon {
-      width: 32px; height: 32px;
+      width: 32px;
+      height: 32px;
       border-radius: 8px;
       background: var(--bg4);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 18px;
       flex-shrink: 0;
       overflow: hidden;
     }
 
-    #preview-favicon img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+    #preview-favicon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
 
-    #preview-info { flex: 1; min-width: 0; }
-    #preview-type { font-size: 10px; letter-spacing: 1.5px; color: var(--text3); margin-bottom: 3px; text-transform: uppercase; }
-    #preview-title { font-size: 13px; color: var(--text); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
-    #preview-domain { font-size: 11px; color: var(--text2); }
+    #preview-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    #preview-type {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--text3);
+      margin-bottom: 3px;
+      text-transform: uppercase;
+    }
+
+    #preview-title {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+
+    #preview-domain {
+      font-size: 11px;
+      color: var(--text2);
+    }
 
     /* tag input */
     #tag-row {
@@ -293,7 +388,9 @@
       align-items: center;
     }
 
-    #tag-row.visible { display: flex; }
+    #tag-row.visible {
+      display: flex;
+    }
 
     .tag-chip {
       padding: 4px 12px;
@@ -305,15 +402,20 @@
       background: var(--bg4);
       transition: all 0.15s;
     }
+
     .tag-chip.selected {
       background: var(--green-glow);
       border-color: var(--green);
       color: var(--green);
     }
-    .tag-chip:active { transform: scale(0.95); }
+
+    .tag-chip:active {
+      transform: scale(0.95);
+    }
 
     #custom-tag {
-      flex: 1; min-width: 100px;
+      flex: 1;
+      min-width: 100px;
       background: var(--bg);
       border: 1px solid var(--border2);
       border-radius: 20px;
@@ -324,11 +426,19 @@
       outline: none;
     }
 
-    #custom-tag::placeholder { color: var(--text3); }
-    #custom-tag:focus { border-color: var(--green); }
+    #custom-tag::placeholder {
+      color: var(--text3);
+    }
+
+    #custom-tag:focus {
+      border-color: var(--green);
+    }
 
     /* ── LAST SAVED ── */
-    #last-saved-section { margin-top: 4px; }
+    #last-saved-section {
+      margin-top: 4px;
+    }
+
     .section-label {
       font-size: 10px;
       letter-spacing: 2px;
@@ -339,9 +449,13 @@
     }
 
     /* ── FEED PAGE ── */
-    #page-feed { padding-top: 16px; }
+    #page-feed {
+      padding-top: 16px;
+    }
 
-    .feed-top { padding: 0 20px 12px; }
+    .feed-top {
+      padding: 0 20px 12px;
+    }
 
     /* Search */
     #search-wrap {
@@ -351,7 +465,8 @@
 
     #search-icon {
       position: absolute;
-      left: 14px; top: 50%;
+      left: 14px;
+      top: 50%;
       transform: translateY(-50%);
       color: var(--text3);
       font-size: 14px;
@@ -363,7 +478,7 @@
       background: var(--bg2);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 12px 14px 12px 38px;
+      padding: 12px 38px 12px 38px;
       font-family: var(--mono);
       font-size: 13px;
       color: var(--text);
@@ -371,8 +486,43 @@
       transition: border-color 0.2s;
     }
 
-    #search-input::placeholder { color: var(--text3); }
-    #search-input:focus { border-color: var(--green); }
+    #search-input::placeholder {
+      color: var(--text3);
+    }
+
+    #search-input:focus {
+      border-color: var(--green);
+    }
+
+    #search-clear {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text3);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+      display: none;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    #search-clear.visible {
+      display: flex;
+    }
+
+    #search-clear:hover {
+      color: var(--text);
+      background: var(--bg4);
+    }
 
     /* Filter pills */
     #filter-scroll {
@@ -381,7 +531,10 @@
       overflow-x: auto;
       padding-bottom: 4px;
     }
-    #filter-scroll::-webkit-scrollbar { display: none; }
+
+    #filter-scroll::-webkit-scrollbar {
+      display: none;
+    }
 
     .filter-pill {
       flex-shrink: 0;
@@ -394,7 +547,9 @@
       cursor: pointer;
       background: var(--bg2);
       transition: all 0.15s;
-      display: flex; align-items: center; gap: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
     .filter-pill.active {
@@ -403,7 +558,9 @@
       color: var(--green);
     }
 
-    .filter-pill:active { transform: scale(0.95); }
+    .filter-pill:active {
+      transform: scale(0.95);
+    }
 
     /* Feed stats bar */
     #feed-stats {
@@ -413,7 +570,9 @@
     }
 
     /* ── LINK CARDS ── */
-    .links-list { padding: 0 16px; }
+    .links-list {
+      padding: 0 16px;
+    }
 
     .link-card {
       background: var(--bg2);
@@ -427,9 +586,21 @@
       position: relative;
     }
 
-    @keyframes cardIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
 
-    .link-card:active { transform: scale(0.99); }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .link-card:active {
+      transform: scale(0.99);
+    }
 
     /* color accent bar per type */
     .link-card-accent {
@@ -452,36 +623,48 @@
       align-items: center;
       gap: 10px;
     }
+
     .link-title-container {
       flex: 1;
       display: flex;
       align-items: center;
       gap: 6px;
     }
+
     .open-icon {
       font-size: 14px;
       color: var(--text2);
       text-decoration: none;
       transition: color 0.15s;
     }
+
     .open-icon:hover {
       color: var(--text);
     }
+
     .open-icon:active {
       transform: scale(0.95);
     }
 
     .link-favicon {
-      width: 28px; height: 28px;
+      width: 28px;
+      height: 28px;
       border-radius: 7px;
       background: var(--bg4);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 15px;
       flex-shrink: 0;
       overflow: hidden;
     }
 
-    .link-favicon img { width: 100%; height: 100%; object-fit: cover; border-radius: 7px; }
+    .link-favicon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 7px;
+    }
 
     .link-title {
       flex: 1;
@@ -537,11 +720,14 @@
     }
 
     .card-btn {
-      width: 28px; height: 28px;
+      width: 28px;
+      height: 28px;
       border-radius: 7px;
       border: 1px solid var(--border);
       background: var(--bg3);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
       font-size: 13px;
       color: var(--text2);
@@ -549,8 +735,16 @@
       text-decoration: none;
     }
 
-    .card-btn:active { background: var(--bg4); transform: scale(0.9); }
-    .card-btn.del:active { background: rgba(255,71,87,0.15); color: var(--red); border-color: var(--red); }
+    .card-btn:active {
+      background: var(--bg4);
+      transform: scale(0.9);
+    }
+
+    .card-btn.del:active {
+      background: rgba(255, 71, 87, 0.15);
+      color: var(--red);
+      border-color: var(--red);
+    }
 
     /* ── EMPTY STATE ── */
     .empty-state {
@@ -559,15 +753,44 @@
       color: var(--text3);
     }
 
-    .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
-    .empty-title { font-size: 16px; color: var(--text2); margin-bottom: 8px; font-family: var(--head); }
-    .empty-sub { font-size: 12px; line-height: 1.6; }
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .empty-title {
+      font-size: 16px;
+      color: var(--text2);
+      margin-bottom: 8px;
+      font-family: var(--head);
+    }
+
+    .empty-sub {
+      font-size: 12px;
+      line-height: 1.6;
+    }
 
     /* ── SETTINGS PAGE ── */
-    #page-settings { padding-top: 24px; }
-    .settings-inner { padding: 0 20px; }
-    .settings-section { margin-bottom: 28px; }
-    .settings-title { font-size: 10px; letter-spacing: 2px; color: var(--text3); text-transform: uppercase; margin-bottom: 12px; }
+    #page-settings {
+      padding-top: 24px;
+    }
+
+    .settings-inner {
+      padding: 0 20px;
+    }
+
+    .settings-section {
+      margin-bottom: 28px;
+    }
+
+    .settings-title {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text3);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
 
     .settings-card {
       background: var(--bg2);
@@ -585,9 +808,21 @@
       gap: 12px;
     }
 
-    .settings-row:last-child { border-bottom: none; }
-    .settings-row-label { font-size: 13px; color: var(--text); }
-    .settings-row-sub { font-size: 11px; color: var(--text2); margin-top: 3px; line-height: 1.4; }
+    .settings-row:last-child {
+      border-bottom: none;
+    }
+
+    .settings-row-label {
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .settings-row-sub {
+      font-size: 11px;
+      color: var(--text2);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
 
     .settings-input {
       width: 100%;
@@ -602,7 +837,10 @@
       margin-top: 10px;
       transition: border-color 0.2s;
     }
-    .settings-input:focus { border-color: var(--green); }
+
+    .settings-input:focus {
+      border-color: var(--green);
+    }
 
     .settings-btn {
       padding: 10px 18px;
@@ -615,9 +853,21 @@
       transition: all 0.15s;
     }
 
-    .settings-btn.green { background: var(--green-glow); border-color: var(--green); color: var(--green); }
-    .settings-btn.red { background: rgba(255,71,87,0.08); border-color: rgba(255,71,87,0.3); color: var(--red); }
-    .settings-btn:active { transform: scale(0.96); }
+    .settings-btn.green {
+      background: var(--green-glow);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .settings-btn.red {
+      background: rgba(255, 71, 87, 0.08);
+      border-color: rgba(255, 71, 87, 0.3);
+      color: var(--red);
+    }
+
+    .settings-btn:active {
+      transform: scale(0.96);
+    }
 
     /* Gist info */
     .gist-status {
@@ -627,14 +877,26 @@
       border-radius: 8px;
       display: none;
     }
-    .gist-status.ok { background: var(--green-glow); color: var(--green); display: block; }
-    .gist-status.err { background: rgba(255,71,87,0.08); color: var(--red); display: block; }
+
+    .gist-status.ok {
+      background: var(--green-glow);
+      color: var(--green);
+      display: block;
+    }
+
+    .gist-status.err {
+      background: rgba(255, 71, 87, 0.08);
+      color: var(--red);
+      display: block;
+    }
 
     /* ── BOTTOM NAV ── */
     #bottom-nav {
       position: absolute;
-      bottom: 0; left: 0; right: 0;
-      background: rgba(12,12,15,0.92);
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(12, 12, 15, 0.92);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-top: 1px solid var(--border);
@@ -659,7 +921,9 @@
       position: relative;
     }
 
-    .nav-tab.active { color: var(--green); }
+    .nav-tab.active {
+      color: var(--green);
+    }
 
     .nav-tab-icon {
       font-size: 20px;
@@ -667,12 +931,13 @@
     }
 
     .nav-tab.active .nav-tab-icon {
-      filter: drop-shadow(0 0 8px rgba(0,255,136,0.5));
+      filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.5));
     }
 
     .nav-badge {
       position: absolute;
-      top: 6px; right: calc(50% - 18px);
+      top: 6px;
+      right: calc(50% - 18px);
       background: var(--green);
       color: var(--bg);
       font-size: 9px;
@@ -686,12 +951,15 @@
       padding: 0 4px;
     }
 
-    .nav-badge.show { display: flex; }
+    .nav-badge.show {
+      display: flex;
+    }
 
     /* ── TOAST ── */
     #toast {
       position: fixed;
-      top: 60px; left: 50%;
+      top: 60px;
+      left: 50%;
       transform: translateX(-50%) translateY(-10px);
       background: var(--bg3);
       border: 1px solid var(--border2);
@@ -704,8 +972,16 @@
       pointer-events: none;
       transition: all 0.25s ease;
       white-space: nowrap;
-      display: flex; align-items: center; gap: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       max-width: 90vw;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 2px;
+      border-radius: 4px;
     }
 
     #toast.show {
@@ -713,565 +989,727 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    #toast.success { border-color: rgba(0,255,136,0.4); }
-    #toast.error { border-color: rgba(255,71,87,0.4); }
+    #toast.success {
+      border-color: rgba(0, 255, 136, 0.4);
+    }
+
+    #toast.error {
+      border-color: rgba(255, 71, 87, 0.4);
+    }
 
     /* SYNC INDICATOR */
     #sync-dot {
-      width: 7px; height: 7px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: var(--text3);
       display: inline-block;
       margin-left: 6px;
       vertical-align: middle;
     }
-    #sync-dot.syncing { background: var(--yellow); animation: pulse 1s ease infinite; }
-    #sync-dot.synced { background: var(--green); }
-    #sync-dot.error { background: var(--red); }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    #sync-dot.syncing {
+      background: var(--yellow);
+      animation: pulse 1s ease infinite;
+    }
+
+    #sync-dot.synced {
+      background: var(--green);
+    }
+
+    #sync-dot.error {
+      background: var(--red);
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.3
+      }
+    }
 
     /* SCROLLBAR */
-    * { scrollbar-width: none; }
+    * {
+      scrollbar-width: none;
+    }
 
     /* TYPE COLORS */
-    .accent-youtube  { background: #ff0000; }
-    .accent-twitter  { background: #1d9bf0; }
-    .accent-github   { background: #c9d1d9; }
-    .accent-spotify  { background: #1db954; }
-    .accent-article  { background: var(--purple); }
-    .accent-shopping { background: var(--orange); }
-    .accent-docs     { background: var(--blue); }
-    .accent-instagram{ background: var(--pink); }
-    .accent-reddit   { background: #ff4500; }
-    .accent-linkedin { background: #0077b5; }
-    .accent-link     { background: var(--green); }
+    .accent-youtube {
+      background: #ff0000;
+    }
 
-    .tag-youtube  { background: rgba(255,0,0,0.1); color:#ff4444; border:1px solid rgba(255,0,0,0.2); }
-    .tag-twitter  { background: rgba(29,155,240,0.1); color:#1d9bf0; border:1px solid rgba(29,155,240,0.2); }
-    .tag-github   { background: rgba(201,209,217,0.1); color:#c9d1d9; border:1px solid rgba(201,209,217,0.2); }
-    .tag-spotify  { background: rgba(29,185,84,0.1); color:#1db954; border:1px solid rgba(29,185,84,0.2); }
-    .tag-article  { background: rgba(199,125,255,0.1); color:var(--purple); border:1px solid rgba(199,125,255,0.2); }
-    .tag-shopping { background: rgba(255,140,66,0.1); color:var(--orange); border:1px solid rgba(255,140,66,0.2); }
-    .tag-docs     { background: rgba(78,205,196,0.1); color:var(--blue); border:1px solid rgba(78,205,196,0.2); }
-    .tag-instagram{ background: rgba(255,107,157,0.1); color:var(--pink); border:1px solid rgba(255,107,157,0.2); }
-    .tag-reddit   { background: rgba(255,69,0,0.1); color:#ff4500; border:1px solid rgba(255,69,0,0.2); }
-    .tag-linkedin { background: rgba(0,119,181,0.1); color:#0077b5; border:1px solid rgba(0,119,181,0.2); }
-    .tag-link     { background: var(--green-glow); color:var(--green); border:1px solid rgba(0,255,136,0.2); }
+    .accent-twitter {
+      background: #1d9bf0;
+    }
 
+    .accent-github {
+      background: #c9d1d9;
+    }
+
+    .accent-spotify {
+      background: #1db954;
+    }
+
+    .accent-article {
+      background: var(--purple);
+    }
+
+    .accent-shopping {
+      background: var(--orange);
+    }
+
+    .accent-docs {
+      background: var(--blue);
+    }
+
+    .accent-instagram {
+      background: var(--pink);
+    }
+
+    .accent-reddit {
+      background: #ff4500;
+    }
+
+    .accent-linkedin {
+      background: #0077b5;
+    }
+
+    .accent-link {
+      background: var(--green);
+    }
+
+    .tag-youtube {
+      background: rgba(255, 0, 0, 0.1);
+      color: #ff4444;
+      border: 1px solid rgba(255, 0, 0, 0.2);
+    }
+
+    .tag-twitter {
+      background: rgba(29, 155, 240, 0.1);
+      color: #1d9bf0;
+      border: 1px solid rgba(29, 155, 240, 0.2);
+    }
+
+    .tag-github {
+      background: rgba(201, 209, 217, 0.1);
+      color: #c9d1d9;
+      border: 1px solid rgba(201, 209, 217, 0.2);
+    }
+
+    .tag-spotify {
+      background: rgba(29, 185, 84, 0.1);
+      color: #1db954;
+      border: 1px solid rgba(29, 185, 84, 0.2);
+    }
+
+    .tag-article {
+      background: rgba(199, 125, 255, 0.1);
+      color: var(--purple);
+      border: 1px solid rgba(199, 125, 255, 0.2);
+    }
+
+    .tag-shopping {
+      background: rgba(255, 140, 66, 0.1);
+      color: var(--orange);
+      border: 1px solid rgba(255, 140, 66, 0.2);
+    }
+
+    .tag-docs {
+      background: rgba(78, 205, 196, 0.1);
+      color: var(--blue);
+      border: 1px solid rgba(78, 205, 196, 0.2);
+    }
+
+    .tag-instagram {
+      background: rgba(255, 107, 157, 0.1);
+      color: var(--pink);
+      border: 1px solid rgba(255, 107, 157, 0.2);
+    }
+
+    .tag-reddit {
+      background: rgba(255, 69, 0, 0.1);
+      color: #ff4500;
+      border: 1px solid rgba(255, 69, 0, 0.2);
+    }
+
+    .tag-linkedin {
+      background: rgba(0, 119, 181, 0.1);
+      color: #0077b5;
+      border: 1px solid rgba(0, 119, 181, 0.2);
+    }
+
+    .tag-link {
+      background: var(--green-glow);
+      color: var(--green);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+    }
   </style>
   <link rel="stylesheet" href="apple.css" />
 </head>
+
 <body>
 
-<div id="app">
-  <!-- HEADER -->
-  <div id="header">
-    <div id="header-inner">
-      <div id="logo">
-        <div id="logo-icon">🔖</div>
-        <h1>Link<span>Stash</span></h1>
-      </div>
-      <div id="link-count-chip"><b id="total-count">0</b> links</div>
-    </div>
-  </div>
-
-  <!-- PAGES -->
-  <div id="pages">
-
-    <!-- HOME -->
-    <div class="page active" id="page-home">
-      <div style="padding:0 0 24px;">
-
-        <div class="home-inner">
-          <div class="save-section">
-            <div class="save-label">// paste a link</div>
-            <textarea id="link-input" placeholder="Paste any URL here — article, video, tweet, repo..." rows="3"></textarea>
-
-            <div id="preview-box">
-              <div id="preview-favicon"><span id="preview-emoji">🔗</span></div>
-              <div id="preview-info">
-                <div id="preview-type">LINK</div>
-                <div id="preview-title">Untitled</div>
-                <div id="preview-domain">—</div>
-              </div>
-            </div>
-
-            <div id="tag-row">
-              <span style="font-size:10px;color:var(--text3);letter-spacing:1px;width:100%;margin-bottom:4px;">TAG</span>
-            </div>
-
-            <div class="input-actions">
-              <button id="paste-btn">📋 Paste</button>
-              <button id="save-btn">
-                <span id="save-btn-text">Save Link</span>
-              </button>
-            </div>
-          </div>
+  <div id="app">
+    <!-- HEADER -->
+    <div id="header">
+      <div id="header-inner">
+        <div id="logo">
+          <div id="logo-icon">🔖</div>
+          <h1>Link<span>Stash</span></h1>
         </div>
-
-        <div id="last-saved-section">
-          <div class="section-label">// recently saved</div>
-          <div class="links-list" id="recent-list"></div>
-        </div>
+        <div id="link-count-chip"><b id="total-count">0</b> links</div>
       </div>
     </div>
 
-    <!-- FEED -->
-    <div class="page" id="page-feed">
-      <div class="feed-top">
-        <div id="search-wrap">
-          <span id="search-icon">🔍</span>
-          <input type="text" id="search-input" placeholder="Search links, tags, domains..." />
-        </div>
-        <div id="filter-scroll">
-          <div class="filter-pill active" data-filter="all">All</div>
-          <div class="filter-pill" data-filter="youtube">🎥 YouTube</div>
-          <div class="filter-pill" data-filter="twitter">🐦 Twitter</div>
-          <div class="filter-pill" data-filter="github">💻 GitHub</div>
-          <div class="filter-pill" data-filter="article">📰 Article</div>
-          <div class="filter-pill" data-filter="docs">📄 Docs</div>
-          <div class="filter-pill" data-filter="spotify">🎵 Spotify</div>
-          <div class="filter-pill" data-filter="instagram">📸 Instagram</div>
-          <div class="filter-pill" data-filter="reddit">🤖 Reddit</div>
-          <div class="filter-pill" data-filter="shopping">🛍 Shopping</div>
-          <div class="filter-pill" data-filter="linkedin">💼 LinkedIn</div>
-          <div class="filter-pill" data-filter="link">🔗 Other</div>
+    <!-- PAGES -->
+    <div id="pages">
+
+      <!-- HOME -->
+      <div class="page active" id="page-home">
+        <div style="padding:0 0 24px;">
+
+          <div class="home-inner">
+            <div class="save-section">
+              <div class="save-label">// paste a link</div>
+              <textarea id="link-input" placeholder="Paste any URL here — article, video, tweet, repo..."
+                rows="3"></textarea>
+
+              <div id="preview-box">
+                <div id="preview-favicon"><span id="preview-emoji">🔗</span></div>
+                <div id="preview-info">
+                  <div id="preview-type">LINK</div>
+                  <div id="preview-title">Untitled</div>
+                  <div id="preview-domain">—</div>
+                </div>
+              </div>
+
+              <div id="tag-row">
+                <span
+                  style="font-size:10px;color:var(--text3);letter-spacing:1px;width:100%;margin-bottom:4px;">TAG</span>
+              </div>
+
+              <div class="input-actions">
+                <button id="paste-btn">📋 Paste</button>
+                <button id="save-btn">
+                  <span id="save-btn-text">Save Link</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div id="last-saved-section">
+            <div class="section-label">// recently saved</div>
+            <div class="links-list" id="recent-list"></div>
+          </div>
         </div>
       </div>
-      <div id="feed-stats"></div>
-      <div class="links-list" id="feed-list"></div>
-    </div>
 
-    <!-- SETTINGS -->
-    <div class="page" id="page-settings">
-      <div class="settings-inner">
-
-        <div class="settings-section">
-          <div class="settings-title">// GitHub Gist Sync (optional)</div>
-          <div class="settings-card">
-            <div class="settings-row" style="flex-direction:column;align-items:flex-start;">
-              <div>
-                <div class="settings-row-label">GitHub Personal Access Token</div>
-                <div class="settings-row-sub">Syncs your links across all devices via a private GitHub Gist. <a href="https://github.com/settings/tokens/new?scopes=gist&description=LinkStash" target="_blank" style="color:var(--green);">Generate token →</a></div>
-              </div>
-              <input type="password" class="settings-input" id="gist-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
-              <div id="gist-status" class="gist-status"></div>
-              <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
-                <button id="save-gist-btn" class="settings-btn green">Save & Connect</button>
-                <button id="sync-btn" class="settings-btn green">Sync Now <span id="sync-dot"></span></button>
-              </div>
+      <!-- FEED -->
+      <div class="page" id="page-feed">
+        <div class="feed-top">
+          <div id="search-wrap">
+            <span id="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="search-input" placeholder="Search links, tags, domains..."
+              aria-label="Search links" />
+            <button id="search-clear" aria-label="Clear search">✕</button>
+          </div>
+          <div id="filter-scroll" role="group" aria-label="Filter links by type">
+            <div class="filter-pill active" data-filter="all" role="button" tabindex="0" aria-pressed="true">All</div>
+            <div class="filter-pill" data-filter="youtube" role="button" tabindex="0" aria-pressed="false">🎥 YouTube
             </div>
+            <div class="filter-pill" data-filter="twitter" role="button" tabindex="0" aria-pressed="false">🐦 Twitter
+            </div>
+            <div class="filter-pill" data-filter="github" role="button" tabindex="0" aria-pressed="false">💻 GitHub
+            </div>
+            <div class="filter-pill" data-filter="article" role="button" tabindex="0" aria-pressed="false">📰 Article
+            </div>
+            <div class="filter-pill" data-filter="docs" role="button" tabindex="0" aria-pressed="false">📄 Docs</div>
+            <div class="filter-pill" data-filter="spotify" role="button" tabindex="0" aria-pressed="false">🎵 Spotify
+            </div>
+            <div class="filter-pill" data-filter="instagram" role="button" tabindex="0" aria-pressed="false">📸
+              Instagram</div>
+            <div class="filter-pill" data-filter="reddit" role="button" tabindex="0" aria-pressed="false">🤖 Reddit
+            </div>
+            <div class="filter-pill" data-filter="shopping" role="button" tabindex="0" aria-pressed="false">🛍 Shopping
+            </div>
+            <div class="filter-pill" data-filter="linkedin" role="button" tabindex="0" aria-pressed="false">💼 LinkedIn
+            </div>
+            <div class="filter-pill" data-filter="link" role="button" tabindex="0" aria-pressed="false">🔗 Other</div>
           </div>
         </div>
-
-        <div class="settings-section">
-          <div class="settings-title">// Data</div>
-          <div class="settings-card">
-            <div class="settings-row" style="flex-wrap:wrap;align-items:center;">
-              <div style="flex:1;min-width:200px;">
-                <div class="settings-row-label">Export Links</div>
-                <div class="settings-row-sub">Download all your links in JSON, CSV (Excel) or plain‑text format</div>
-              </div>
-              <select id="export-format" class="settings-input" style="width:auto;min-width:120px;margin-right:8px;">
-                <option value="json">JSON</option>
-                <option value="csv">CSV (Excel)</option>
-                <option value="txt">Plain text</option>
-              </select>
-              <button id="export-btn" class="settings-btn green">Export</button>
-            </div>
-            <div class="settings-row">
-              <div>
-                <div class="settings-row-label">Import Links</div>
-                <div class="settings-row-sub">Import from a JSON backup file</div>
-              </div>
-              <button id="import-btn" class="settings-btn green">Import</button>
-            </div>
-            <div class="settings-row">
-              <div>
-                <div class="settings-row-label">Clear All Data</div>
-                <div class="settings-row-sub">Delete all saved links permanently</div>
-              </div>
-              <button id="clear-btn" class="settings-btn red">Clear</button>
-            </div>
-          </div>
-          <input type="file" id="import-file" accept=".json" style="display:none" onchange="importLinks(event)" />
-        </div>
-
-        <div class="settings-section">
-          <div class="settings-title">// Install as App</div>
-          <div class="settings-card">
-            <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px;">
-              <div class="settings-row-label">Add to Home Screen</div>
-              <div class="settings-row-sub" style="line-height:1.7;">
-                <strong>iPhone (Safari)</strong><br>
-                1. Open this page in <b style="color:var(--text);">Safari</b><br>
-                2. Tap the <b style="color:var(--text);">Share</b> button (□↑)<br>
-                3. Scroll down → tap <b style="color:var(--text);">"Add to Home Screen"</b><br>
-                4. Tap <b style="color:var(--text);">Add</b> — done! ✓<br><br>
-                <strong>Android (Chrome/Firefox)</strong><br>
-                1. Open this page in your browser<br>
-                2. Tap the menu (︙ or ⋮) or the three‑dot icon<br>
-                3. Choose <b style="color:var(--text);">"Add to Home screen"</b> or <b style="color:var(--text);">"Install app"</b><br>
-                4. Confirm/add — the app icon will appear on your home screen<br><br>
-                <span style="color:var(--text3);">After installing, you can share links from Safari/Chrome and select LinkStash to auto-open and paste!</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style="text-align:center;padding:20px 0 40px;color:var(--text3);font-size:11px;">
-          LinkStash · Your personal link vault · Built for you
-        </div>
-
+        <div id="feed-stats"></div>
+        <div class="links-list" id="feed-list"></div>
       </div>
-    </div>
 
-  </div><!-- /pages -->
+      <!-- SETTINGS -->
+      <div class="page" id="page-settings">
+        <div class="settings-inner">
 
-  <!-- BOTTOM NAV -->
-  <div id="bottom-nav">
-    <div class="nav-tab active" data-page="home">
-      <div class="nav-tab-icon">🏠</div>
-      <span>Home</span>
-    </div>
-    <div class="nav-tab" data-page="feed">
-      <div class="nav-tab-icon">📂</div>
-      <span>Feed</span>
-      <div class="nav-badge" id="feed-badge"></div>
-    </div>
-    <div class="nav-tab" data-page="settings">
-      <div class="nav-tab-icon">⚙️</div>
-      <span>Settings</span>
-    </div>
-  </div>
+          <div class="settings-section">
+            <div class="settings-title">// GitHub Gist Sync (optional)</div>
+            <div class="settings-card">
+              <div class="settings-row" style="flex-direction:column;align-items:flex-start;">
+                <div>
+                  <div class="settings-row-label">GitHub Personal Access Token</div>
+                  <div class="settings-row-sub">Syncs your links across all devices via a private GitHub Gist. <a
+                      href="https://github.com/settings/tokens/new?scopes=gist&description=LinkStash" target="_blank"
+                      style="color:var(--green);">Generate token →</a></div>
+                </div>
+                <input type="password" class="settings-input" id="gist-token-input"
+                  placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
+                <div id="gist-status" class="gist-status"></div>
+                <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+                  <button id="save-gist-btn" class="settings-btn green">Save & Connect</button>
+                  <button id="sync-btn" class="settings-btn green">Sync Now <span id="sync-dot"></span></button>
+                </div>
+              </div>
+            </div>
+          </div>
 
-</div><!-- /app -->
+          <div class="settings-section">
+            <div class="settings-title">// Data</div>
+            <div class="settings-card">
+              <div class="settings-row" style="flex-wrap:wrap;align-items:center;">
+                <div style="flex:1;min-width:200px;">
+                  <div class="settings-row-label">Export Links</div>
+                  <div class="settings-row-sub">Download all your links in JSON, CSV (Excel) or plain‑text format</div>
+                </div>
+                <select id="export-format" class="settings-input" style="width:auto;min-width:120px;margin-right:8px;">
+                  <option value="json">JSON</option>
+                  <option value="csv">CSV (Excel)</option>
+                  <option value="txt">Plain text</option>
+                </select>
+                <button id="export-btn" class="settings-btn green">Export</button>
+              </div>
+              <div class="settings-row">
+                <div>
+                  <div class="settings-row-label">Import Links</div>
+                  <div class="settings-row-sub">Import from a JSON backup file</div>
+                </div>
+                <button id="import-btn" class="settings-btn green">Import</button>
+              </div>
+              <div class="settings-row">
+                <div>
+                  <div class="settings-row-label">Clear All Data</div>
+                  <div class="settings-row-sub">Delete all saved links permanently</div>
+                </div>
+                <button id="clear-btn" class="settings-btn red">Clear</button>
+              </div>
+            </div>
+            <input type="file" id="import-file" accept=".json" style="display:none" onchange="importLinks(event)" />
+          </div>
 
-<!-- TOAST -->
-<div id="toast"></div>
+          <div class="settings-section">
+            <div class="settings-title">// Install as App</div>
+            <div class="settings-card">
+              <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px;">
+                <div class="settings-row-label">Add to Home Screen</div>
+                <div class="settings-row-sub" style="line-height:1.7;">
+                  <strong>iPhone (Safari)</strong><br>
+                  1. Open this page in <b style="color:var(--text);">Safari</b><br>
+                  2. Tap the <b style="color:var(--text);">Share</b> button (□↑)<br>
+                  3. Scroll down → tap <b style="color:var(--text);">"Add to Home Screen"</b><br>
+                  4. Tap <b style="color:var(--text);">Add</b> — done! ✓<br><br>
+                  <strong>Android (Chrome/Firefox)</strong><br>
+                  1. Open this page in your browser<br>
+                  2. Tap the menu (︙ or ⋮) or the three‑dot icon<br>
+                  3. Choose <b style="color:var(--text);">"Add to Home screen"</b> or <b
+                    style="color:var(--text);">"Install app"</b><br>
+                  4. Confirm/add — the app icon will appear on your home screen<br><br>
+                  <span style="color:var(--text3);">After installing, you can share links from Safari/Chrome and select
+                    LinkStash to auto-open and paste!</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
-<script>
-// ═══════════════════════════════════════════
-// STATE (data + element cache)
-// ═══════════════════════════════════════════
-let links = [];
-let currentFilter = 'all';
-let detectedType = 'link';
-let selectedTag = '';
-let gistId = null;
-let gistToken = null;
+          <div style="text-align:center;padding:20px 0 40px;color:var(--text3);font-size:11px;">
+            LinkStash · Your personal link vault · Built for you
+          </div>
 
-// frequently used elements (cached)
-const elLinkInput = document.getElementById('link-input');
-const elPreviewBox = document.getElementById('preview-box');
-const elTagRow = document.getElementById('tag-row');
-const elTotalCount = document.getElementById('total-count');
-const elFeedBadge = document.getElementById('feed-badge');
-const elRecentList = document.getElementById('recent-list');
-const elFeedList = document.getElementById('feed-list');
-const elSearchInput = document.getElementById('search-input');
-const elToast = document.getElementById('toast');
-const elGistTokenInput = document.getElementById('gist-token-input');
-const elGistStatus = document.getElementById('gist-status');
-const elSyncDot = document.getElementById('sync-dot');
-const elImportBtn = document.getElementById('import-btn');
-const elImportFile = document.getElementById('import-file');
-const elFeedStats = document.getElementById('feed-stats');
-// preview fields
-const elPreviewEmoji = document.getElementById('preview-emoji');
-const elPreviewType  = document.getElementById('preview-type');
-const elPreviewDomain= document.getElementById('preview-domain');
-const elPreviewFavicon = document.getElementById('preview-favicon');
-const elPreviewTitle = document.getElementById('preview-title');
+        </div>
+      </div>
+
+    </div><!-- /pages -->
+
+    <!-- BOTTOM NAV -->
+    <nav id="bottom-nav" aria-label="Main navigation">
+      <div class="nav-tab active" data-page="home" role="button" tabindex="0" aria-label="Home" aria-current="page">
+        <div class="nav-tab-icon" aria-hidden="true">🏠</div>
+        <span>Home</span>
+      </div>
+      <div class="nav-tab" data-page="feed" role="button" tabindex="0" aria-label="Feed">
+        <div class="nav-tab-icon" aria-hidden="true">📂</div>
+        <span>Feed</span>
+        <div class="nav-badge" id="feed-badge" aria-hidden="true"></div>
+      </div>
+      <div class="nav-tab" data-page="settings" role="button" tabindex="0" aria-label="Settings">
+        <div class="nav-tab-icon" aria-hidden="true">⚙️</div>
+        <span>Settings</span>
+      </div>
+    </nav>
+
+  </div><!-- /app -->
+
+  <!-- TOAST -->
+  <div id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <script>
+    // ═══════════════════════════════════════════
+    // STATE (data + element cache)
+    // ═══════════════════════════════════════════
+    let links = [];
+    let currentFilter = 'all';
+    let detectedType = 'link';
+    let selectedTag = '';
+    let gistId = null;
+    let gistToken = null;
+
+    // frequently used elements (cached)
+    const elLinkInput = document.getElementById('link-input');
+    const elPreviewBox = document.getElementById('preview-box');
+    const elTagRow = document.getElementById('tag-row');
+    const elTotalCount = document.getElementById('total-count');
+    const elFeedBadge = document.getElementById('feed-badge');
+    const elRecentList = document.getElementById('recent-list');
+    const elFeedList = document.getElementById('feed-list');
+    const elSearchInput = document.getElementById('search-input');
+    const elToast = document.getElementById('toast');
+    const elGistTokenInput = document.getElementById('gist-token-input');
+    const elGistStatus = document.getElementById('gist-status');
+    const elSyncDot = document.getElementById('sync-dot');
+    const elImportBtn = document.getElementById('import-btn');
+    const elImportFile = document.getElementById('import-file');
+    const elFeedStats = document.getElementById('feed-stats');
+    // preview fields
+    const elPreviewEmoji = document.getElementById('preview-emoji');
+    const elPreviewType = document.getElementById('preview-type');
+    const elPreviewDomain = document.getElementById('preview-domain');
+    const elPreviewFavicon = document.getElementById('preview-favicon');
+    const elPreviewTitle = document.getElementById('preview-title');
 
 
-// ═══════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════
-function init() {
-  loadFromStorage();
-  gistToken = localStorage.getItem('ls_gist_token') || '';
-  gistId    = localStorage.getItem('ls_gist_id') || '';
-  if (gistToken) elGistTokenInput.value = gistToken;
+    // ═══════════════════════════════════════════
+    // INIT
+    // ═══════════════════════════════════════════
+    function init() {
+      loadFromStorage();
+      gistToken = localStorage.getItem('ls_gist_token') || '';
+      gistId = localStorage.getItem('ls_gist_id') || '';
+      if (gistToken) elGistTokenInput.value = gistToken;
 
-  updateUI();
+      updateUI();
 
-  // attach event listeners
-  elSearchInput.addEventListener('input', renderFeed);
-  elLinkInput.addEventListener('input', function() {
-    const val = this.value.trim();
-    if (val.startsWith('http')) analyzeUrl(val);
-    else { elPreviewBox.classList.remove('visible'); elTagRow.classList.remove('visible'); }
-  });
-  document.getElementById('paste-btn').addEventListener('click', pasteFromClipboard);
-  document.getElementById('save-btn').addEventListener('click', handleSave);
-  elImportBtn.addEventListener('click', () => elImportFile.click());
-  document.getElementById('save-gist-btn').addEventListener('click', saveGistToken);
-  document.getElementById('export-btn').addEventListener('click', exportLinks);
-  document.getElementById('clear-btn').addEventListener('click', clearAll);
+      // attach event listeners
+      elSearchInput.addEventListener('input', debounce(() => {
+        const clearBtn = document.getElementById('search-clear');
+        if (clearBtn) clearBtn.classList.toggle('visible', elSearchInput.value.length > 0);
+        renderFeed();
+      }, 150));
 
-  // filter pills delegation
-  document.getElementById('filter-scroll').addEventListener('click', e => {
-    const pill = e.target.closest('.filter-pill');
-    if (pill) setFilter(pill.dataset.filter, pill);
-  });
+      // clear search button
+      const elSearchClear = document.getElementById('search-clear');
+      if (elSearchClear) {
+        elSearchClear.addEventListener('click', () => {
+          elSearchInput.value = '';
+          elSearchClear.classList.remove('visible');
+          renderFeed();
+          elSearchInput.focus();
+        });
+      }
 
-  // bottom nav delegation
-  document.getElementById('bottom-nav').addEventListener('click', e => {
-    const tab = e.target.closest('.nav-tab');
-    if (tab) switchPage(tab.dataset.page, tab);
-  });
+      elLinkInput.addEventListener('input', function () {
+        const val = this.value.trim();
+        if (val.startsWith('http')) analyzeUrl(val);
+        else { elPreviewBox.classList.remove('visible'); elTagRow.classList.remove('visible'); }
+      });
+      document.getElementById('paste-btn').addEventListener('click', pasteFromClipboard);
+      document.getElementById('save-btn').addEventListener('click', handleSave);
+      elImportBtn.addEventListener('click', () => elImportFile.click());
+      document.getElementById('save-gist-btn').addEventListener('click', saveGistToken);
+      document.getElementById('sync-btn').addEventListener('click', syncNow);
+      document.getElementById('export-btn').addEventListener('click', exportLinks);
+      document.getElementById('clear-btn').addEventListener('click', clearAll);
 
-  // Check if opened via share sheet (URL params)
-  const params = new URLSearchParams(window.location.search);
-  const sharedUrl = params.get('url') || params.get('text') || params.get('title');
-  if (sharedUrl) {
-    elLinkInput.value = sharedUrl;
-    analyzeUrl(sharedUrl);
-    showToast('📥 Link received from share!', 'success');
-  }
+      // filter pills delegation — click + keyboard
+      document.getElementById('filter-scroll').addEventListener('click', e => {
+        const pill = e.target.closest('.filter-pill');
+        if (pill) setFilter(pill.dataset.filter, pill);
+      });
+      document.getElementById('filter-scroll').addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          const pill = e.target.closest('.filter-pill');
+          if (pill) { e.preventDefault(); setFilter(pill.dataset.filter, pill); }
+        }
+      });
 
-  // Auto sync if token set
-  if (gistToken && gistId) setTimeout(syncFromGist, 800);
-}
+      // bottom nav delegation — click + keyboard
+      document.getElementById('bottom-nav').addEventListener('click', e => {
+        const tab = e.target.closest('.nav-tab');
+        if (tab) switchPage(tab.dataset.page, tab);
+      });
+      document.getElementById('bottom-nav').addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          const tab = e.target.closest('.nav-tab');
+          if (tab) { e.preventDefault(); switchPage(tab.dataset.page, tab); }
+        }
+      });
 
-// ═══════════════════════════════════════════
-// STORAGE
-// ═══════════════════════════════════════════
-function loadFromStorage() {
-  try {
-    const raw = localStorage.getItem('linkstash_v1');
-    if (raw) links = JSON.parse(raw);
-  } catch(e) { links = []; }
-}
+      // Check if opened via share sheet (URL params)
+      const params = new URLSearchParams(window.location.search);
+      const sharedUrl = params.get('url') || params.get('text') || params.get('title');
+      if (sharedUrl) {
+        elLinkInput.value = sharedUrl;
+        analyzeUrl(sharedUrl);
+        showToast('📥 Link received from share!', 'success');
+      }
 
-function saveToStorage() {
-  localStorage.setItem('linkstash_v1', JSON.stringify(links));
-}
+      // Auto sync if token set
+      if (gistToken && gistId) setTimeout(syncFromGist, 800);
+    }
 
-// ═══════════════════════════════════════════
-// TYPE DETECTION
-// ═══════════════════════════════════════════
-const TYPE_MAP = [
-  { type: 'youtube',   emoji: '🎥', label: 'YouTube Video',   patterns: [/youtube\.com/, /youtu\.be/] },
-  { type: 'twitter',   emoji: '🐦', label: 'Twitter / X',     patterns: [/twitter\.com/, /x\.com/] },
-  { type: 'github',    emoji: '💻', label: 'GitHub',           patterns: [/github\.com/] },
-  { type: 'spotify',   emoji: '🎵', label: 'Spotify',          patterns: [/spotify\.com/, /open\.spotify/] },
-  { type: 'instagram', emoji: '📸', label: 'Instagram',        patterns: [/instagram\.com/] },
-  { type: 'reddit',    emoji: '🤖', label: 'Reddit',           patterns: [/reddit\.com/, /redd\.it/] },
-  { type: 'linkedin',  emoji: '💼', label: 'LinkedIn',         patterns: [/linkedin\.com/] },
-  { type: 'docs',      emoji: '📄', label: 'Documentation',    patterns: [/docs\./, /developer\./, /developers\./, /wiki\./] },
-  { type: 'shopping',  emoji: '🛍', label: 'Shopping',         patterns: [/amazon\./, /flipkart\./, /myntra\./, /meesho\./, /ajio\./, /shop\./] },
-  { type: 'article',   emoji: '📰', label: 'Article',          patterns: [/medium\.com/, /dev\.to/, /hashnode/, /substack/, /blog\./] },
-];
+    // ═══════════════════════════════════════════
+    // STORAGE
+    // ═══════════════════════════════════════════
+    function loadFromStorage() {
+      try {
+        const raw = localStorage.getItem('linkstash_v1');
+        if (raw) links = JSON.parse(raw);
+      } catch (e) { links = []; }
+    }
 
-function detectType(url) {
-  for (const t of TYPE_MAP) {
-    if (t.patterns.some(p => p.test(url))) return t;
-  }
-  return { type: 'link', emoji: '🔗', label: 'Link' };
-}
+    function saveToStorage() {
+      localStorage.setItem('linkstash_v1', JSON.stringify(links));
+    }
 
-function getDomain(url) {
-  try {
-    return new URL(url).hostname.replace(/^www\./, '');
-  } catch { return url; }
-}
+    // ═══════════════════════════════════════════
+    // TYPE DETECTION
+    // ═══════════════════════════════════════════
+    const TYPE_MAP = [
+      { type: 'youtube', emoji: '🎥', label: 'YouTube Video', patterns: [/youtube\.com/, /youtu\.be/] },
+      { type: 'twitter', emoji: '🐦', label: 'Twitter / X', patterns: [/twitter\.com/, /x\.com/] },
+      { type: 'github', emoji: '💻', label: 'GitHub', patterns: [/github\.com/] },
+      { type: 'spotify', emoji: '🎵', label: 'Spotify', patterns: [/spotify\.com/, /open\.spotify/] },
+      { type: 'instagram', emoji: '📸', label: 'Instagram', patterns: [/instagram\.com/] },
+      { type: 'reddit', emoji: '🤖', label: 'Reddit', patterns: [/reddit\.com/, /redd\.it/] },
+      { type: 'linkedin', emoji: '💼', label: 'LinkedIn', patterns: [/linkedin\.com/] },
+      { type: 'docs', emoji: '📄', label: 'Documentation', patterns: [/docs\./, /developer\./, /developers\./, /wiki\./] },
+      { type: 'shopping', emoji: '🛍', label: 'Shopping', patterns: [/amazon\./, /flipkart\./, /myntra\./, /meesho\./, /ajio\./, /shop\./] },
+      { type: 'article', emoji: '📰', label: 'Article', patterns: [/medium\.com/, /dev\.to/, /hashnode/, /substack/, /blog\./] },
+    ];
 
-function getFaviconUrl(url) {
-  try {
-    const domain = new URL(url).hostname;
-    return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
-  } catch { return null; }
-}
+    function detectType(url) {
+      for (const t of TYPE_MAP) {
+        if (t.patterns.some(p => p.test(url))) return t;
+      }
+      return { type: 'link', emoji: '🔗', label: 'Link' };
+    }
 
-// ═══════════════════════════════════════════
-// ANALYZE URL (preview + tags)
-// ═══════════════════════════════════════════
-function analyzeUrl(url) {
-  if (!url || !url.startsWith('http')) return;
+    function getDomain(url) {
+      try {
+        return new URL(url).hostname.replace(/^www\./, '');
+      } catch { return url; }
+    }
 
-  const info = detectType(url);
-  detectedType = info.type;
+    function getFaviconUrl(url) {
+      try {
+        const domain = new URL(url).hostname;
+        return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+      } catch { return null; }
+    }
 
-  // Update preview
-  const box = elPreviewBox;
-  box.classList.add('visible');
+    // ═══════════════════════════════════════════
+    // ANALYZE URL (preview + tags)
+    // ═══════════════════════════════════════════
+    function analyzeUrl(url) {
+      if (!url || !url.startsWith('http')) return;
 
-  elPreviewEmoji.textContent = info.emoji;
-  elPreviewType.textContent = info.label;
-  elPreviewDomain.textContent = getDomain(url);
+      const info = detectType(url);
+      detectedType = info.type;
 
-  // Try loading favicon as img
-  const faviconUrl = getFaviconUrl(url);
-  if (faviconUrl) {
-    const faviconDiv = elPreviewFavicon;
-    faviconDiv.innerHTML = `<img src="${faviconUrl}" onerror="this.parentElement.innerHTML='${info.emoji}'" />`;
-  }
+      // Update preview
+      const box = elPreviewBox;
+      box.classList.add('visible');
 
-  // Title — try to guess from URL path
-  try {
-    const path = new URL(url).pathname;
-    const parts = path.split('/').filter(Boolean);
-    const last = parts[parts.length - 1] || '';
-    const guessedTitle = decodeURIComponent(last.replace(/[-_]/g, ' ')).replace(/\.[^.]+$/, '') || getDomain(url);
-    elPreviewTitle.textContent = guessedTitle.length > 60
-      ? guessedTitle.slice(0, 60) + '…'
-      : guessedTitle || 'Untitled';
-  } catch {
-    elPreviewTitle.textContent = getDomain(url);
-  }
+      elPreviewEmoji.textContent = info.emoji;
+      elPreviewType.textContent = info.label;
+      elPreviewDomain.textContent = getDomain(url);
 
-  // Build tag suggestions
-  buildTagSuggestions(info.type);
-}
+      // Try loading favicon as img
+      const faviconUrl = getFaviconUrl(url);
+      if (faviconUrl) {
+        const faviconDiv = elPreviewFavicon;
+        faviconDiv.innerHTML = `<img src="${faviconUrl}" onerror="this.parentElement.innerHTML='${info.emoji}'" />`;
+      }
 
-const TAG_SUGGESTIONS = {
-  youtube:   ['#learning', '#entertainment', '#tutorial', '#later'],
-  twitter:   ['#inspo', '#news', '#thread', '#saved'],
-  github:    ['#dev', '#tools', '#reference', '#oss'],
-  spotify:   ['#music', '#podcast', '#playlist'],
-  instagram: ['#inspo', '#saved', '#art'],
-  reddit:    ['#read', '#discussion', '#saved'],
-  linkedin:  ['#career', '#networking', '#jobs'],
-  docs:      ['#reference', '#dev', '#learning'],
-  shopping:  ['#buy', '#wishlist', '#compare'],
-  article:   ['#read', '#learning', '#research'],
-  link:      ['#saved', '#later', '#important', '#misc'],
-};
+      // Title — try to guess from URL path
+      try {
+        const path = new URL(url).pathname;
+        const parts = path.split('/').filter(Boolean);
+        const last = parts[parts.length - 1] || '';
+        const guessedTitle = decodeURIComponent(last.replace(/[-_]/g, ' ')).replace(/\.[^.]+$/, '') || getDomain(url);
+        elPreviewTitle.textContent = guessedTitle.length > 60
+          ? guessedTitle.slice(0, 60) + '…'
+          : guessedTitle || 'Untitled';
+      } catch {
+        elPreviewTitle.textContent = getDomain(url);
+      }
 
-function buildTagSuggestions(type) {
-  const suggestions = TAG_SUGGESTIONS[type] || TAG_SUGGESTIONS.link;
-  selectedTag = suggestions[0];
+      // Build tag suggestions
+      buildTagSuggestions(info.type);
+    }
 
-  const row = elTagRow;
-  row.innerHTML = `<span style="font-size:10px;color:var(--text3);letter-spacing:1px;width:100%;margin-bottom:4px;">TAG</span>`;
-
-  suggestions.forEach(tag => {
-    const chip = document.createElement('div');
-    chip.className = 'tag-chip' + (tag === selectedTag ? ' selected' : '');
-    chip.textContent = tag;
-    chip.onclick = () => {
-      selectedTag = tag;
-      document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('selected'));
-      chip.classList.add('selected');
-      customInput.value = '';
+    const TAG_SUGGESTIONS = {
+      youtube: ['#learning', '#entertainment', '#tutorial', '#later'],
+      twitter: ['#inspo', '#news', '#thread', '#saved'],
+      github: ['#dev', '#tools', '#reference', '#oss'],
+      spotify: ['#music', '#podcast', '#playlist'],
+      instagram: ['#inspo', '#saved', '#art'],
+      reddit: ['#read', '#discussion', '#saved'],
+      linkedin: ['#career', '#networking', '#jobs'],
+      docs: ['#reference', '#dev', '#learning'],
+      shopping: ['#buy', '#wishlist', '#compare'],
+      article: ['#read', '#learning', '#research'],
+      link: ['#saved', '#later', '#important', '#misc'],
     };
-    row.appendChild(chip);
-  });
 
-  const customInput = document.createElement('input');
-  customInput.id = 'custom-tag';
-  customInput.className = '';
-  customInput.style.cssText = 'flex:1;min-width:100px;background:var(--bg);border:1px solid var(--border2);border-radius:20px;padding:4px 14px;font-family:var(--mono);font-size:11px;color:var(--text);outline:none;';
-  customInput.placeholder = '+ custom tag';
-  customInput.addEventListener('input', () => {
-    if (customInput.value) {
-      selectedTag = '#' + customInput.value.replace('#', '').trim();
-      document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('selected'));
+    function buildTagSuggestions(type) {
+      const suggestions = TAG_SUGGESTIONS[type] || TAG_SUGGESTIONS.link;
+      selectedTag = suggestions[0];
+
+      const row = elTagRow;
+      row.innerHTML = `<span style="font-size:10px;color:var(--text3);letter-spacing:1px;width:100%;margin-bottom:4px;">TAG</span>`;
+
+      suggestions.forEach(tag => {
+        const chip = document.createElement('div');
+        chip.className = 'tag-chip' + (tag === selectedTag ? ' selected' : '');
+        chip.textContent = tag;
+        chip.onclick = () => {
+          selectedTag = tag;
+          document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('selected'));
+          chip.classList.add('selected');
+          customInput.value = '';
+        };
+        row.appendChild(chip);
+      });
+
+      const customInput = document.createElement('input');
+      customInput.id = 'custom-tag';
+      customInput.className = '';
+      customInput.style.cssText = 'flex:1;min-width:100px;background:var(--bg);border:1px solid var(--border2);border-radius:20px;padding:4px 14px;font-family:var(--mono);font-size:11px;color:var(--text);outline:none;';
+      customInput.placeholder = '+ custom tag';
+      customInput.addEventListener('input', () => {
+        if (customInput.value) {
+          selectedTag = '#' + customInput.value.replace('#', '').trim();
+          document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('selected'));
+        }
+      });
+      row.appendChild(customInput);
+      row.classList.add('visible');
     }
-  });
-  row.appendChild(customInput);
-  row.classList.add('visible');
-}
 
-// ═══════════════════════════════════════════
-// PASTE FROM CLIPBOARD
-// ═══════════════════════════════════════════
-async function pasteFromClipboard() {
-  try {
-    const text = await navigator.clipboard.readText();
-    if (text) {
-      elLinkInput.value = text;
-      analyzeUrl(text.trim());
+    // ═══════════════════════════════════════════
+    // PASTE FROM CLIPBOARD
+    // ═══════════════════════════════════════════
+    async function pasteFromClipboard() {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text) {
+          elLinkInput.value = text;
+          analyzeUrl(text.trim());
+        }
+      } catch {
+        showToast('📋 Tap into the text box and paste manually', 'error');
+      }
     }
-  } catch {
-    showToast('📋 Tap into the text box and paste manually', 'error');
-  }
-}
 
-// Watch for input changes
-elLinkInput.addEventListener('input', function() {
-  const val = this.value.trim();
-  if (val.startsWith('http')) {
-    analyzeUrl(val);
-  } else {
-    elPreviewBox.classList.remove('visible');
-    elTagRow.classList.remove('visible');
-  }
-});
+    // ═══════════════════════════════════════════
+    // UTILITIES
+    // ═══════════════════════════════════════════
+    function debounce(fn, delay) {
+      let timer;
+      return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+      };
+    }
 
-// ═══════════════════════════════════════════
-// SAVE LINK
-// ═══════════════════════════════════════════
-async function handleSave() {
-  const raw = elLinkInput.value.trim();
-  if (!raw) { showToast('⚠️ Paste a URL first', 'error'); return; }
+    // ═══════════════════════════════════════════
+    // SAVE LINK
+    // ═══════════════════════════════════════════
+    async function handleSave() {
+      const raw = elLinkInput.value.trim();
+      if (!raw) { showToast('⚠️ Paste a URL first', 'error'); return; }
 
-  let url = raw;
-  if (!url.startsWith('http')) url = 'https://' + url;
+      let url = raw;
+      if (!url.startsWith('http')) url = 'https://' + url;
 
-  const info = detectType(url);
-  const tag = selectedTag || '#saved';
-  const title = document.getElementById('preview-title').textContent || getDomain(url);
-  const domain = getDomain(url);
+      const info = detectType(url);
+      const tag = selectedTag || '#saved';
+      const title = document.getElementById('preview-title').textContent || getDomain(url);
+      const domain = getDomain(url);
 
-  const link = {
-    id: Date.now(),
-    url,
-    title,
-    domain,
-    type: info.type,
-    emoji: info.emoji,
-    typeLabel: info.label,
-    tag,
-    saved: new Date().toISOString(),
-    read: false,
-  };
+      const link = {
+        id: Date.now(),
+        url,
+        title,
+        domain,
+        type: info.type,
+        emoji: info.emoji,
+        typeLabel: info.label,
+        tag,
+        saved: new Date().toISOString(),
+        read: false,
+      };
 
-  links.unshift(link);
-  saveToStorage();
+      links.unshift(link);
+      saveToStorage();
 
-  // Clear input
-  elLinkInput.value = '';
-  elPreviewBox.classList.remove('visible');
-  document.getElementById('tag-row').classList.remove('visible');
-  selectedTag = '';
+      // Clear input
+      elLinkInput.value = '';
+      elPreviewBox.classList.remove('visible');
+      document.getElementById('tag-row').classList.remove('visible');
+      selectedTag = '';
 
-  updateUI();
-  showToast(`${info.emoji} Link saved!`, 'success');
+      updateUI();
+      showToast(`${info.emoji} Link saved!`, 'success');
 
-  // Sync to gist in background
-  if (gistToken) syncToGist();
-}
+      // Sync to gist in background
+      if (gistToken) syncToGist();
+    }
 
-// ═══════════════════════════════════════════
-// RENDER
-// ═══════════════════════════════════════════
-function updateUI() {
-  document.getElementById('total-count').textContent = links.length;
-  const badge = document.getElementById('feed-badge');
-  if (links.length > 0) {
-    badge.textContent = links.length > 99 ? '99+' : links.length;
-    badge.classList.add('show');
-  } else {
-    badge.classList.remove('show');
-  }
-  renderRecent();
-  renderFeed();
-}
+    // ═══════════════════════════════════════════
+    // RENDER
+    // ═══════════════════════════════════════════
+    function updateUI() {
+      document.getElementById('total-count').textContent = links.length;
+      const badge = document.getElementById('feed-badge');
+      if (links.length > 0) {
+        badge.textContent = links.length > 99 ? '99+' : links.length;
+        badge.classList.add('show');
+      } else {
+        badge.classList.remove('show');
+      }
+      renderRecent();
+      renderFeed();
+    }
 
-function createCardElement(l) {
-  const div = document.createElement('div');
-  div.className = 'link-card';
-  div.id = `card-${l.id}`;
-  const timeAgo = getTimeAgo(l.saved);
-  const faviconUrl = getFaviconUrl(l.url);
-  const faviconHtml = faviconUrl
-    ? `<img src="${faviconUrl}" onerror="this.parentElement.innerHTML='${l.emoji}'" />`
-    : l.emoji;
+    function createCardElement(l) {
+      const div = document.createElement('div');
+      div.className = 'link-card';
+      div.id = `card-${l.id}`;
+      const timeAgo = getTimeAgo(l.saved);
+      const faviconUrl = getFaviconUrl(l.url);
+      const faviconHtml = faviconUrl
+        ? `<img src="${faviconUrl}" onerror="this.parentElement.innerHTML='${l.emoji}'" />`
+        : l.emoji;
 
-  div.innerHTML = `
+      div.innerHTML = `
       <div class="link-card-accent accent-${l.type}"></div>
       <div class="link-card-body">
         <div class="link-card-top">
@@ -1289,329 +1727,338 @@ function createCardElement(l) {
         <div class="link-card-actions">
           <span class="link-type-badge">${l.typeLabel}</span>
           <div class="card-btns">
-            <button class="card-btn" data-action="copy">⎘</button>
-            <button class="card-btn del" data-action="delete">✕</button>
+            <button class="card-btn" data-action="copy" aria-label="Copy URL">⎘</button>
+            <button class="card-btn del" data-action="delete" aria-label="Delete link">✕</button>
           </div>
         </div>
       </div>
     `;
-  // attach listeners to buttons
-  const copyBtn = div.querySelector('button[data-action="copy"]');
-  const delBtn = div.querySelector('button[data-action="delete"]');
-  if (copyBtn) copyBtn.addEventListener('click', () => copyLink(l.url));
-  if (delBtn) delBtn.addEventListener('click', () => deleteLink(l.id));
-  return div;
-}
+      // attach listeners to buttons
+      const copyBtn = div.querySelector('button[data-action="copy"]');
+      const delBtn = div.querySelector('button[data-action="delete"]');
+      if (copyBtn) copyBtn.addEventListener('click', () => copyLink(l.url));
+      if (delBtn) delBtn.addEventListener('click', () => deleteLink(l.id));
+      return div;
+    }
 
-function renderRecent() {
-  const container = elRecentList;
-  const recent = links.slice(0, 3);
-  if (!recent.length) {
-    container.innerHTML = '<div class="empty-state" style="padding:20px 30px;"><div class="empty-sub">No links saved yet.<br>Paste your first link above! 👆</div></div>';
-    return;
-  }
-  container.innerHTML = '';
-  recent.forEach(l => container.appendChild(createCardElement(l)));
-}
+    function renderRecent() {
+      const container = elRecentList;
+      const recent = links.slice(0, 3);
+      if (!recent.length) {
+        container.innerHTML = '<div class="empty-state" style="padding:20px 30px;"><div class="empty-sub">No links saved yet.<br>Paste your first link above! 👆</div></div>';
+        return;
+      }
+      container.innerHTML = '';
+      recent.forEach(l => container.appendChild(createCardElement(l)));
+    }
 
-function renderFeed() {
-  const container = elFeedList;
-  const query = elSearchInput?.value.toLowerCase() || '';
+    function renderFeed() {
+      const container = elFeedList;
+      const query = elSearchInput?.value.toLowerCase() || '';
 
-  let filtered = [...links];
-  if (currentFilter !== 'all') filtered = filtered.filter(l => l.type === currentFilter);
-  if (query) {
-    filtered = filtered.filter(l =>
-      l.title.toLowerCase().includes(query) ||
-      l.domain.toLowerCase().includes(query) ||
-      l.tag.toLowerCase().includes(query) ||
-      l.url.toLowerCase().includes(query)
-    );
-  }
+      let filtered = [...links];
+      if (currentFilter !== 'all') filtered = filtered.filter(l => l.type === currentFilter);
+      if (query) {
+        filtered = filtered.filter(l =>
+          l.title.toLowerCase().includes(query) ||
+          l.domain.toLowerCase().includes(query) ||
+          l.tag.toLowerCase().includes(query) ||
+          l.url.toLowerCase().includes(query)
+        );
+      }
 
-  elFeedStats.textContent =
-    filtered.length !== links.length
-      ? `Showing ${filtered.length} of ${links.length} links`
-      : `${links.length} links saved`;
+      elFeedStats.textContent =
+        filtered.length !== links.length
+          ? `Showing ${filtered.length} of ${links.length} links`
+          : `${links.length} links saved`;
 
-  if (!filtered.length) {
-    container.innerHTML = `<div class="empty-state">
+      if (!filtered.length) {
+        container.innerHTML = `<div class="empty-state">
       <div class="empty-icon">${links.length ? '🔍' : '📂'}</div>
       <div class="empty-title">${links.length ? 'No matches' : 'Your feed is empty'}</div>
       <div class="empty-sub">${links.length ? 'Try a different search or filter' : 'Save links from the Home tab to see them here'}</div>
     </div>`;
-    return;
-  }
-
-  container.innerHTML = '';
-  filtered.forEach(l => container.appendChild(createCardElement(l)));
-}
-
-
-
-function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function escAttr(s) { return s.replace(/'/g,"\\'"); }
-
-function getTimeAgo(iso) {
-  const diff = Date.now() - new Date(iso).getTime();
-  const m = Math.floor(diff / 60000);
-  if (m < 1) return 'just now';
-  if (m < 60) return `${m}m ago`;
-  const h = Math.floor(m / 60);
-  if (h < 24) return `${h}h ago`;
-  const d = Math.floor(h / 24);
-  if (d < 7) return `${d}d ago`;
-  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
-
-// ═══════════════════════════════════════════
-// ACTIONS
-// ═══════════════════════════════════════════
-function deleteLink(id) {
-  links = links.filter(l => l.id !== id);
-  saveToStorage();
-  updateUI();
-  if (gistToken) syncToGist();
-  showToast('🗑 Link deleted', '');
-}
-
-function copyLink(url) {
-  navigator.clipboard.writeText(url).then(() => showToast('⎘ URL copied!', 'success')).catch(() => showToast('Copy failed', 'error'));
-}
-
-// ═══════════════════════════════════════════
-// FILTER
-// ═══════════════════════════════════════════
-function setFilter(filter, el) {
-  currentFilter = filter;
-  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  renderFeed();
-}
-
-// ═══════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════
-function switchPage(page, el) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
-  el.classList.add('active');
-  if (page === 'feed') renderFeed();
-}
-
-// ═══════════════════════════════════════════
-// TOAST
-// ═══════════════════════════════════════════
-let toastTimer;
-function showToast(msg, type) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'show ' + (type || '');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
-}
-
-// ═══════════════════════════════════════════
-// GITHUB GIST SYNC
-// ═══════════════════════════════════════════
-async function findExistingGist(token) {
-  try {
-    const res = await fetch('https://api.github.com/gists', {
-      headers: { 'Authorization': `token ${token}` }
-    });
-    if (!res.ok) return null;
-    const gists = await res.json();
-    const existing = gists.find(g => g.description === 'LinkStash — My saved links' && g.files['linkstash.json']);
-    return existing || null;
-  } catch(e) {
-    return null;
-  }
-}
-
-async function saveGistToken() {
-  const token = document.getElementById('gist-token-input').value.trim();
-  if (!token) { showToast('⚠️ Enter a token first', 'error'); return; }
-  gistToken = token;
-  localStorage.setItem('ls_gist_token', token);
-  showToast('🔐 Token saved! Searching for existing gist...', '');
-  const existing = await findExistingGist(token);
-  if (existing) {
-    gistId = existing.id;
-    localStorage.setItem('ls_gist_id', gistId);
-    showToast('✓ Connected to existing gist!', 'success');
-    const statusEl = document.getElementById('gist-status');
-    statusEl.textContent = `✓ Connected · Gist ID: ${gistId}`;
-    statusEl.className = 'gist-status ok';
-    await syncFromGist();
-  } else {
-    showToast('Creating new gist...', '');
-    await syncToGist();
-  }
-}
-
-function setSyncStatus(s) {
-  const dot = document.getElementById('sync-dot');
-  if (!dot) return;
-  dot.className = s;
-}
-
-async function syncToGist() {
-  if (!gistToken) return;
-  setSyncStatus('syncing');
-  try {
-    const data = JSON.stringify({ links }, null, 2);
-    const body = {
-      description: 'LinkStash — My saved links',
-      public: false,
-      files: { 'linkstash.json': { content: data } }
-    };
-
-    let res;
-    if (gistId) {
-      res = await fetch(`https://api.github.com/gists/${gistId}`, {
-        method: 'PATCH',
-        headers: { 'Authorization': `token ${gistToken}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-    } else {
-      res = await fetch('https://api.github.com/gists', {
-        method: 'POST',
-        headers: { 'Authorization': `token ${gistToken}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-    }
-
-    if (!res.ok) throw new Error('API error ' + res.status);
-    const json = await res.json();
-    gistId = json.id;
-    localStorage.setItem('ls_gist_id', gistId);
-    setSyncStatus('synced');
-    const statusEl = document.getElementById('gist-status');
-    statusEl.textContent = `✓ Connected · Gist ID: ${gistId}`;
-    statusEl.className = 'gist-status ok';
-  } catch(e) {
-    setSyncStatus('error');
-    const statusEl = document.getElementById('gist-status');
-    statusEl.textContent = '✕ Sync failed. Check your token.';
-    statusEl.className = 'gist-status err';
-  }
-}
-
-async function syncFromGist() {
-  if (!gistToken || !gistId) return;
-  try {
-    const res = await fetch(`https://api.github.com/gists/${gistId}`, {
-      headers: { 'Authorization': `token ${gistToken}` }
-    });
-    if (!res.ok) return;
-    const json = await res.json();
-    const content = json.files?.['linkstash.json']?.content;
-    if (content) {
-      const parsed = JSON.parse(content);
-      if (parsed.links && Array.isArray(parsed.links)) {
-        // Only update if gist has different data (merge strategy)
-        const cloudHash = JSON.stringify(parsed.links).slice(0, 50);
-        const localHash = JSON.stringify(links).slice(0, 50);
-        if (cloudHash !== localHash) {
-          // Merge: keep local + add missing cloud links
-          const existingIds = new Set(links.map(l => l.id));
-          const newLinks = parsed.links.filter(l => !existingIds.has(l.id));
-          links = [...links, ...newLinks].sort((a, b) => new Date(b.saved) - new Date(a.saved));
-          saveToStorage();
-          updateUI();
-          if (newLinks.length > 0) showToast(`🔄 Synced ${newLinks.length} new link(s)`, 'success');
-        }
+        return;
       }
+
+      container.innerHTML = '';
+      filtered.forEach(l => container.appendChild(createCardElement(l)));
     }
-  } catch(e) {}
-}
 
-async function syncNow() {
-  await syncToGist();
-  await syncFromGist();
-  showToast('🔄 Sync complete!', 'success');
-}
 
-// ═══════════════════════════════════════════
-// EXPORT / IMPORT / CLEAR
-// ═══════════════════════════════════════════
-function exportLinks() {
-  const format = document.getElementById('export-format')?.value || 'json';
-  let data, mime, filename;
-  if (format === 'csv') {
-    const header = ['url','title','domain','type','tag','saved','read'];
-    const rows = links.map(l => header.map(k => {
-      let v = l[k] || '';
-      return '"' + String(v).replace(/"/g,'""') + '"';
-    }).join(','));
-    data = [header.join(','), ...rows].join('\n');
-    mime = 'text/csv';
-    filename = 'linkstash-export.csv';
-  } else if (format === 'txt') {
-    data = links.map(l => l.url).join('\n');
-    mime = 'text/plain';
-    filename = 'linkstash-export.txt';
-  } else {
-    data = JSON.stringify({ links, exported: new Date().toISOString() }, null, 2);
-    mime = 'application/json';
-    filename = 'linkstash-export.json';
-  }
-  const blob = new Blob([data], { type: mime });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = filename;
-  a.click();
-  showToast('📥 Export downloaded!', 'success');
-}
 
-function importLinks(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const data = JSON.parse(e.target.result);
-      const imported = data.links || data;
-      if (!Array.isArray(imported)) throw new Error();
-      // Merge, avoid duplicates by id
-      const existingIds = new Set(links.map(l => l.id));
-      const newLinks = imported.filter(l => !existingIds.has(l.id));
-      links = [...newLinks, ...links];
+    function escHtml(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    function escAttr(s) { return s.replace(/'/g, "\\'"); }
+
+    function getTimeAgo(iso) {
+      const diff = Date.now() - new Date(iso).getTime();
+      const m = Math.floor(diff / 60000);
+      if (m < 1) return 'just now';
+      if (m < 60) return `${m}m ago`;
+      const h = Math.floor(m / 60);
+      if (h < 24) return `${h}h ago`;
+      const d = Math.floor(h / 24);
+      if (d < 7) return `${d}d ago`;
+      return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    // ═══════════════════════════════════════════
+    // ACTIONS
+    // ═══════════════════════════════════════════
+    function deleteLink(id) {
+      links = links.filter(l => l.id !== id);
       saveToStorage();
       updateUI();
-      showToast(`✓ Imported ${newLinks.length} new links`, 'success');
-    } catch {
-      showToast('✕ Invalid file format', 'error');
+      if (gistToken) syncToGist();
+      showToast('🗑 Link deleted', '');
     }
-  };
-  reader.readAsText(file);
-  event.target.value = '';
-}
 
-function clearAll() {
-  if (!confirm('Delete ALL saved links? This cannot be undone.')) return;
-  links = [];
-  saveToStorage();
-  updateUI();
-  showToast('🗑 All links cleared', '');
-}
+    function copyLink(url) {
+      navigator.clipboard.writeText(url).then(() => showToast('⎘ URL copied!', 'success')).catch(() => showToast('Copy failed', 'error'));
+    }
 
-// ═══════════════════════════════════════════
-// SERVICE WORKER REGISTRATION
-// ═══════════════════════════════════════════
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  });
-}
+    // ═══════════════════════════════════════════
+    // FILTER
+    // ═══════════════════════════════════════════
+    function setFilter(filter, el) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-pill').forEach(p => {
+        p.classList.remove('active');
+        p.setAttribute('aria-pressed', 'false');
+      });
+      el.classList.add('active');
+      el.setAttribute('aria-pressed', 'true');
+      renderFeed();
+    }
 
-// ═══════════════════════════════════════════
-// SHARE TARGET HANDLER (Web Share Target API)
-// ═══════════════════════════════════════════
-window.addEventListener('DOMContentLoaded', () => {
-  init();
-});
-</script>
+    // ═══════════════════════════════════════════
+    // NAVIGATION
+    // ═══════════════════════════════════════════
+    function switchPage(page, el) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(t => {
+        t.classList.remove('active');
+        t.removeAttribute('aria-current');
+      });
+      document.getElementById('page-' + page).classList.add('active');
+      el.classList.add('active');
+      el.setAttribute('aria-current', 'page');
+      if (page === 'feed') renderFeed();
+    }
+
+    // ═══════════════════════════════════════════
+    // TOAST
+    // ═══════════════════════════════════════════
+    let toastTimer;
+    function showToast(msg, type) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'show ' + (type || '');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    // ═══════════════════════════════════════════
+    // GITHUB GIST SYNC
+    // ═══════════════════════════════════════════
+    async function findExistingGist(token) {
+      try {
+        const res = await fetch('https://api.github.com/gists', {
+          headers: { 'Authorization': `token ${token}` }
+        });
+        if (!res.ok) return null;
+        const gists = await res.json();
+        const existing = gists.find(g => g.description === 'LinkStash — My saved links' && g.files['linkstash.json']);
+        return existing || null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function saveGistToken() {
+      const token = document.getElementById('gist-token-input').value.trim();
+      if (!token) { showToast('⚠️ Enter a token first', 'error'); return; }
+      gistToken = token;
+      localStorage.setItem('ls_gist_token', token);
+      showToast('🔐 Token saved! Searching for existing gist...', '');
+      const existing = await findExistingGist(token);
+      if (existing) {
+        gistId = existing.id;
+        localStorage.setItem('ls_gist_id', gistId);
+        showToast('✓ Connected to existing gist!', 'success');
+        const statusEl = document.getElementById('gist-status');
+        statusEl.textContent = `✓ Connected · Gist ID: ${gistId}`;
+        statusEl.className = 'gist-status ok';
+        await syncFromGist();
+      } else {
+        showToast('Creating new gist...', '');
+        await syncToGist();
+      }
+    }
+
+    function setSyncStatus(s) {
+      const dot = document.getElementById('sync-dot');
+      if (!dot) return;
+      dot.className = s;
+    }
+
+    async function syncToGist() {
+      if (!gistToken) return;
+      setSyncStatus('syncing');
+      try {
+        const data = JSON.stringify({ links }, null, 2);
+        const body = {
+          description: 'LinkStash — My saved links',
+          public: false,
+          files: { 'linkstash.json': { content: data } }
+        };
+
+        let res;
+        if (gistId) {
+          res = await fetch(`https://api.github.com/gists/${gistId}`, {
+            method: 'PATCH',
+            headers: { 'Authorization': `token ${gistToken}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+          });
+        } else {
+          res = await fetch('https://api.github.com/gists', {
+            method: 'POST',
+            headers: { 'Authorization': `token ${gistToken}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+          });
+        }
+
+        if (!res.ok) throw new Error('API error ' + res.status);
+        const json = await res.json();
+        gistId = json.id;
+        localStorage.setItem('ls_gist_id', gistId);
+        setSyncStatus('synced');
+        const statusEl = document.getElementById('gist-status');
+        statusEl.textContent = `✓ Connected · Gist ID: ${gistId}`;
+        statusEl.className = 'gist-status ok';
+      } catch (e) {
+        setSyncStatus('error');
+        const statusEl = document.getElementById('gist-status');
+        statusEl.textContent = '✕ Sync failed. Check your token.';
+        statusEl.className = 'gist-status err';
+      }
+    }
+
+    async function syncFromGist() {
+      if (!gistToken || !gistId) return;
+      try {
+        const res = await fetch(`https://api.github.com/gists/${gistId}`, {
+          headers: { 'Authorization': `token ${gistToken}` }
+        });
+        if (!res.ok) return;
+        const json = await res.json();
+        const content = json.files?.['linkstash.json']?.content;
+        if (content) {
+          const parsed = JSON.parse(content);
+          if (parsed.links && Array.isArray(parsed.links)) {
+            // Only update if gist has different data (merge strategy)
+            const cloudHash = JSON.stringify(parsed.links).slice(0, 50);
+            const localHash = JSON.stringify(links).slice(0, 50);
+            if (cloudHash !== localHash) {
+              // Merge: keep local + add missing cloud links
+              const existingIds = new Set(links.map(l => l.id));
+              const newLinks = parsed.links.filter(l => !existingIds.has(l.id));
+              links = [...links, ...newLinks].sort((a, b) => new Date(b.saved) - new Date(a.saved));
+              saveToStorage();
+              updateUI();
+              if (newLinks.length > 0) showToast(`🔄 Synced ${newLinks.length} new link(s)`, 'success');
+            }
+          }
+        }
+      } catch (e) { }
+    }
+
+    async function syncNow() {
+      await syncToGist();
+      await syncFromGist();
+      showToast('🔄 Sync complete!', 'success');
+    }
+
+    // ═══════════════════════════════════════════
+    // EXPORT / IMPORT / CLEAR
+    // ═══════════════════════════════════════════
+    function exportLinks() {
+      const format = document.getElementById('export-format')?.value || 'json';
+      let data, mime, filename;
+      if (format === 'csv') {
+        const header = ['url', 'title', 'domain', 'type', 'tag', 'saved', 'read'];
+        const rows = links.map(l => header.map(k => {
+          let v = l[k] || '';
+          return '"' + String(v).replace(/"/g, '""') + '"';
+        }).join(','));
+        data = [header.join(','), ...rows].join('\n');
+        mime = 'text/csv';
+        filename = 'linkstash-export.csv';
+      } else if (format === 'txt') {
+        data = links.map(l => l.url).join('\n');
+        mime = 'text/plain';
+        filename = 'linkstash-export.txt';
+      } else {
+        data = JSON.stringify({ links, exported: new Date().toISOString() }, null, 2);
+        mime = 'application/json';
+        filename = 'linkstash-export.json';
+      }
+      const blob = new Blob([data], { type: mime });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      showToast('📥 Export downloaded!', 'success');
+    }
+
+    function importLinks(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const data = JSON.parse(e.target.result);
+          const imported = data.links || data;
+          if (!Array.isArray(imported)) throw new Error();
+          // Merge, avoid duplicates by id
+          const existingIds = new Set(links.map(l => l.id));
+          const newLinks = imported.filter(l => !existingIds.has(l.id));
+          links = [...newLinks, ...links];
+          saveToStorage();
+          updateUI();
+          showToast(`✓ Imported ${newLinks.length} new links`, 'success');
+        } catch {
+          showToast('✕ Invalid file format', 'error');
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    function clearAll() {
+      if (!confirm('Delete ALL saved links? This cannot be undone.')) return;
+      links = [];
+      saveToStorage();
+      updateUI();
+      showToast('🗑 All links cleared', '');
+    }
+
+    // ═══════════════════════════════════════════
+    // SERVICE WORKER REGISTRATION
+    // ═══════════════════════════════════════════
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => { });
+      });
+    }
+
+    // ═══════════════════════════════════════════
+    // SHARE TARGET HANDLER (Web Share Target API)
+    // ═══════════════════════════════════════════
+    window.addEventListener('DOMContentLoaded', () => {
+      init();
+    });
+  </script>
 </body>
+
 </html>
