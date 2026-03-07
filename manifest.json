@@ -29,5 +29,28 @@
       "text": "text",
       "url": "url"
     }
-  }
+  },
+  "shortcuts": [
+    {
+      "name": "Save Link",
+      "short_name": "Save",
+      "url": "/linkstash/?page=home",
+      "description": "Save a new link",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "My Feed",
+      "short_name": "Feed",
+      "url": "/linkstash/?page=feed",
+      "description": "Browse all saved links",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Settings",
+      "short_name": "Settings",
+      "url": "/linkstash/?page=settings",
+      "description": "App settings & sync",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ]
 }
