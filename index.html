@@ -1887,25 +1887,36 @@
 
       // Notification init
       const notifyBtn = document.getElementById('notify-btn');
-      if (Notification.permission === 'granted') {
-        notifyBtn.textContent = 'Enabled';
-        notifyBtn.classList.add('green');
-      } else if (Notification.permission === 'denied') {
-        notifyBtn.textContent = 'Blocked';
-      }
-      notifyBtn.addEventListener('click', async () => {
-        if (Notification.permission === 'granted') return showToast('Reminders already enabled', 'success');
-        const perm = await Notification.requestPermission();
-        if (perm === 'granted') {
+      if ('Notification' in window) {
+        if (Notification.permission === 'granted') {
           notifyBtn.textContent = 'Enabled';
           notifyBtn.classList.add('green');
-          showToast('🔔 Reminders enabled!', 'success');
-          scheduleReminder();
-        } else {
+        } else if (Notification.permission === 'denied') {
           notifyBtn.textContent = 'Blocked';
-          showToast('Notifications blocked by browser', 'error');
         }
-      });
+        notifyBtn.addEventListener('click', async () => {
+          if (Notification.permission === 'granted') return showToast('Reminders already enabled', 'success');
+          try {
+            const perm = await Notification.requestPermission();
+            if (perm === 'granted') {
+              notifyBtn.textContent = 'Enabled';
+              notifyBtn.classList.add('green');
+              showToast('🔔 Reminders enabled!', 'success');
+              scheduleReminder();
+            } else {
+              notifyBtn.textContent = 'Blocked';
+              showToast('Notifications blocked by browser', 'error');
+            }
+          } catch (err) {
+            console.error(err);
+            showToast('Error requesting notification permission', 'error');
+          }
+        });
+      } else {
+        notifyBtn.textContent = 'Not Supported';
+        notifyBtn.disabled = true;
+        notifyBtn.style.opacity = '0.5';
+      }
 
       document.getElementById('bulk-delete-btn').addEventListener('click', async () => {
         if (!selectedLinkIds.size) return;
@@ -2878,7 +2889,7 @@
     // NOTIFICATIONS
     // ═══════════════════════════════════════════
     function scheduleReminder() {
-      if (Notification.permission !== 'granted') return;
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
       const unread = links.filter(l => !l.read).length;
       if (unread === 0) return;
 
@@ -2886,13 +2897,17 @@
       // In a real PWA, you'd use Periodic Background Sync or Web Push API, 
       // but setTimeout works fine while the app is active/backgrounded.
       setTimeout(async () => {
-        const sw = await navigator.serviceWorker.ready;
-        sw.showNotification('LinkStash Reminder', {
-          body: `You have ${unread} unread links piled up. Take a moment to read them!`,
-          icon: '/linkstash/icon-192.png',
-          badge: '/linkstash/icon-192.png',
-          tag: 'unread-reminder',
-        });
+        try {
+          const sw = await navigator.serviceWorker.ready;
+          sw.showNotification('LinkStash Reminder', {
+            body: `You have ${unread} unread links piled up. Take a moment to read them!`,
+            icon: '/linkstash/icon-192.png',
+            badge: '/linkstash/icon-192.png',
+            tag: 'unread-reminder',
+          });
+        } catch (e) {
+          console.error("Failed to show notification:", e);
+        }
       }, 1000 * 60 * 60 * 2); // 2 hours
     }
 
