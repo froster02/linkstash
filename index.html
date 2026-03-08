@@ -9,7 +9,6 @@
   <meta name="apple-mobile-web-app-title" content="LinkStash" />
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-192.png" />
-  <base href="/linkstash/">
   <title>LinkStash</title>
   <link
     href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Clash+Display:wght@500;600;700&display=swap"
@@ -1727,26 +1726,6 @@
     </div>
   </div>
 
-  <!-- BULK TAG MODAL -->
-  <div id="bulk-tag-modal" class="modal-overlay">
-    <div class="modal">
-      <div class="modal-header">
-        <h3>Add Tags to Selected</h3>
-        <button id="close-bulk-tag-btn" class="modal-close">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="input-group">
-          <label>Tags (comma separated)</label>
-          <input type="text" id="bulk-tags-input" class="modal-input" placeholder="#tech, #news" />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button id="save-bulk-tag-btn" class="settings-btn green" style="width:100%; justify-content:center;">Apply
-          Tags</button>
-      </div>
-    </div>
-  </div>
-
   <!-- CONFIRM MODAL -->
   <div id="confirm-modal" class="modal-overlay">
     <div class="modal" style="max-width:340px;">
@@ -2168,7 +2147,8 @@
       const faviconUrl = getFaviconUrl(url);
       if (faviconUrl) {
         const faviconDiv = elPreviewFavicon;
-        faviconDiv.innerHTML = `<img src="${faviconUrl}" onerror="this.parentElement.innerHTML='${info.emoji}'" />`;
+        const safeEmojiAttr = escAttr(info.emoji);
+        faviconDiv.innerHTML = `<img src="${faviconUrl}" onerror="this.outerHTML='${safeEmojiAttr}'" />`;
       }
 
       // Title — try to guess from URL path, then fetch real title
@@ -2381,9 +2361,11 @@
       div.id = `card-${l.id}`;
       const timeAgo = getTimeAgo(l.saved);
       const faviconUrl = getFaviconUrl(l.url);
+      const safeEmoji = escHtml(l.emoji || '🔗');
+      const safeEmojiAttr = escAttr(safeEmoji);
       const faviconHtml = faviconUrl
-        ? `<img src="${faviconUrl}" onerror="this.parentElement.innerHTML='${l.emoji}'" />`
-        : l.emoji;
+        ? `<img src="${faviconUrl}" onerror="this.outerHTML='${safeEmojiAttr}'" />`
+        : safeEmoji;
 
       const linkTags = l.tags || (l.tag ? [l.tag] : []);
       const tagsHtml = linkTags.map(t => `<span class="link-tag tag-${l.type}">${escHtml(t)}</span>`).join('');
@@ -2462,6 +2444,19 @@
     const feedObserver = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) renderFeed(false);
     }, { rootMargin: '100px' });
+
+    function renderRecent() {
+      const container = elRecentList;
+      if (!container) return;
+      container.innerHTML = '';
+      if (!links.length) {
+        document.getElementById('last-saved-section').style.display = 'none';
+        return;
+      }
+      document.getElementById('last-saved-section').style.display = 'block';
+      const recent = links.slice(0, 3);
+      recent.forEach(l => container.appendChild(createCardElement(l)));
+    }
 
     let currentFilteredLinks = [];
 
@@ -2573,8 +2568,8 @@
 
 
 
-    function escHtml(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-    function escAttr(s) { return s.replace(/'/g, "\\'"); }
+    function escHtml(s) { return s ? String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') : ''; }
+    function escAttr(s) { return s ? String(s).replace(/'/g, "\\'") : ''; }
 
     function getTimeAgo(iso) {
       const diff = Date.now() - new Date(iso).getTime();
