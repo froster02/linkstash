@@ -1977,9 +1977,14 @@
         renderFeed(true);
       });
 
-      // bottom nav selection — click + keyboard
+      // bottom nav selection — click + keyboard + touch
       document.querySelectorAll('.nav-tab').forEach(tab => {
-        tab.addEventListener('click', () => switchPage(tab.dataset.page, tab));
+        const switchHandler = (e) => {
+          if (e.type === 'touchstart') e.preventDefault(); // prevent double fire with click
+          switchPage(tab.dataset.page, tab);
+        };
+        tab.addEventListener('click', switchHandler);
+        tab.addEventListener('touchstart', switchHandler, { passive: false });
         tab.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
