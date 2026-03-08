@@ -1977,16 +1977,15 @@
         renderFeed(true);
       });
 
-      // bottom nav delegation — click + keyboard
-      document.getElementById('bottom-nav').addEventListener('click', e => {
-        const tab = e.target.closest('.nav-tab');
-        if (tab) switchPage(tab.dataset.page, tab);
-      });
-      document.getElementById('bottom-nav').addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          const tab = e.target.closest('.nav-tab');
-          if (tab) { e.preventDefault(); switchPage(tab.dataset.page, tab); }
-        }
+      // bottom nav selection — click + keyboard
+      document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.addEventListener('click', () => switchPage(tab.dataset.page, tab));
+        tab.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            switchPage(tab.dataset.page, tab);
+          }
+        });
       });
 
       // Check if opened via share sheet (URL params)
