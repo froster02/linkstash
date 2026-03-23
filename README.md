@@ -12,15 +12,30 @@ A fast, beautiful, offline-first link manager for your home screen. Save, organi
 - **🔍 Smart browsing** — Search and filter your links instantly
 - **💾 Zero sign-up** — No account required (GitHub token is optional)
 
-## 📂 Project Files
+## 📂 Project Structure
 
 ```text
-index.html      ← Main app (HTML structure)
-apple.css       ← Apple-inspired dark theme + responsive layout
-sw.js           ← Service worker (offline support)
-manifest.json   ← PWA config (for home screen install)
-icon-192.png    ← App icon (home screen)
-icon-512.png    ← App icon (splash screen)
+linkstash/
+├── .github/
+│   ├── agent.md                ← AI agent project guide
+│   └── LLMmodel-instruction.md ← LLM coding instructions
+├── css/
+│   ├── styles.css              ← Core styles (variables, layout, components)
+│   └── apple.css               ← Apple-inspired theme + responsive overrides
+├── js/
+│   └── app.js                  ← All application logic
+├── assets/icons/
+│   ├── icon-192.png            ← App icon (home screen)
+│   └── icon-512.png            ← App icon (splash screen)
+├── scripts/
+│   └── gen_icons.py            ← Icon generation script
+├── tests/
+│   ├── test.js                 ← JSDOM smoke test
+│   └── test_puppeteer.js       ← Puppeteer browser test
+├── index.html                  ← HTML structure
+├── manifest.json               ← PWA configuration
+├── sw.js                       ← Service worker (offline support)
+└── README.md
 ```
 
 ---
@@ -36,16 +51,7 @@ icon-512.png    ← App icon (splash screen)
 
 ### Step 2: Upload Files
 
-Click **"Upload Files"** and add all 6 files:
-
-- `index.html`
-- `apple.css`
-- `manifest.json`
-- `sw.js`
-- `icon-192.png`
-- `icon-512.png`
-
-Then commit changes.
+Push or upload the entire project directory to the repository.
 
 ### Step 3: Enable GitHub Pages
 
@@ -78,23 +84,17 @@ Done! LinkStash is now on your home screen like a native app.
 4. Optionally add tags/notes
 5. Tap **Save**
 
-### Browse Links (Discover Tab)
+### Browse Links (Feed Tab)
 
 - **Search** — Find links by title, domain, or tags
 - **Filter** — Sort by type, date, or tags
 - **Tap a link** — Opens in new tab
 
-### Organize (Feed Tab)
-
-- View all saved links with metadata
-- See domain, saved time, and custom tags
-- Delete or share links
-
 ### Settings Tab
 
-- **Dark mode** — Always on (Apple-inspired dark theme)
 - **Cloud sync** — Optional GitHub Gist integration
-- **Data export** — Download your links as JSON
+- **Data export** — Download your links as JSON, CSV, or plain text
+- **Import/Clear** — Manage your data
 
 ---
 
@@ -116,6 +116,7 @@ Your links will now sync to a private GitHub Gist accessible from any device!
 ## 🛠 Technical Details
 
 - **No backend required** — Everything runs in your browser
+- **No dependencies** — Zero npm packages, pure vanilla JS
 - **IndexedDB storage** — Fast, reliable local data
 - **Service Worker** — Works completely offline
 - **Responsive design** — Optimized for phones, tablets, and landscape
@@ -126,15 +127,3 @@ Your links will now sync to a private GitHub Gist accessible from any device!
 ## 📝 License & Contributing
 
 This is an open-source project. Feel free to fork, modify, and deploy!
-
----
-
-## 🎨 Design
-
-LinkStash features a modern Apple-inspired dark interface with:
-
-- Clean typography using system fonts
-- Subtle shadows and glass-morphism effects
-- Smooth animations and transitions
-- Full dark mode with proper contrast
-- Responsive layout for all screen sizes

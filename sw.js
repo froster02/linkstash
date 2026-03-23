@@ -1,8 +1,13 @@
-const CACHE = 'linkstash-v1';
+const CACHE = 'linkstash-v2';
 const ASSETS = [
   '/',
   '/index.html',
+  '/css/styles.css',
+  '/css/apple.css',
+  '/js/app.js',
   '/manifest.json',
+  '/assets/icons/icon-192.png',
+  '/assets/icons/icon-512.png',
 ];
 
 self.addEventListener('install', e => {
