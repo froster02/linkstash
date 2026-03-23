@@ -1,5 +1,5 @@
     // ═══════════════════════════════════════════
-    // STATE (data + element cache)
+    // STATE
     // ═══════════════════════════════════════════
     let links = [];
     let currentFilter = 'all';
@@ -14,40 +14,56 @@
     let feedRenderCount = 0;
     const FEED_CHUNK_SIZE = 30;
 
-    // frequently used elements (cached)
-    const elLinkInput = document.getElementById('link-input');
-    const elPreviewBox = document.getElementById('preview-box');
-    const elTagRow = document.getElementById('tag-row');
-    const elTotalCount = document.getElementById('total-count');
-    const elFeedBadge = document.getElementById('feed-badge');
-    const elRecentList = document.getElementById('recent-list');
-    const elFeedList = document.getElementById('feed-list');
-    const elSearchInput = document.getElementById('search-input');
-    const elToast = document.getElementById('toast');
-    const elGistTokenInput = document.getElementById('gist-token-input');
-    const elGistStatus = document.getElementById('gist-status');
-    const elSyncDot = document.getElementById('sync-dot');
-    const elImportBtn = document.getElementById('import-btn');
-    const elImportFile = document.getElementById('import-file');
-    const elFeedStats = document.getElementById('feed-stats');
-    // preview fields
-    const elPreviewEmoji = document.getElementById('preview-emoji');
-    const elPreviewType = document.getElementById('preview-type');
-    const elPreviewDomain = document.getElementById('preview-domain');
-    const elPreviewFavicon = document.getElementById('preview-favicon');
-    const elPreviewTitle = document.getElementById('preview-title');
+    // frequently used elements (cached on DOMContentLoaded)
+    let elLinkInput, elPreviewBox, elTagRow, elTotalCount, elFeedBadge;
+    let elRecentList, elFeedList, elSearchInput, elToast;
+    let elGistTokenInput, elGistStatus, elSyncDot, elImportBtn, elImportFile, elFeedStats;
+    let elPreviewEmoji, elPreviewType, elPreviewDomain, elPreviewFavicon, elPreviewTitle;
+
+    function cacheElements() {
+      elLinkInput = document.getElementById('link-input');
+      elPreviewBox = document.getElementById('preview-box');
+      elTagRow = document.getElementById('tag-row');
+      elTotalCount = document.getElementById('total-count');
+      elFeedBadge = document.getElementById('feed-badge');
+      elRecentList = document.getElementById('recent-list');
+      elFeedList = document.getElementById('feed-list');
+      elSearchInput = document.getElementById('search-input');
+      elToast = document.getElementById('toast');
+      elGistTokenInput = document.getElementById('gist-token-input');
+      elGistStatus = document.getElementById('gist-status');
+      elSyncDot = document.getElementById('sync-dot');
+      elImportBtn = document.getElementById('import-btn');
+      elImportFile = document.getElementById('import-file');
+      elFeedStats = document.getElementById('feed-stats');
+      elPreviewEmoji = document.getElementById('preview-emoji');
+      elPreviewType = document.getElementById('preview-type');
+      elPreviewDomain = document.getElementById('preview-domain');
+      elPreviewFavicon = document.getElementById('preview-favicon');
+      elPreviewTitle = document.getElementById('preview-title');
+    }
 
 
     // ═══════════════════════════════════════════
     // INIT
     // ═══════════════════════════════════════════
     async function init() {
-      await idbStore.init();
-      links = await idbStore.getAll();
+      // Cache DOM elements first
+      cacheElements();
+
+      // Load data — wrapped in try/catch so UI always works
+      // even if IndexedDB fails (Safari Private, restricted browsers)
+      try {
+        await idbStore.init();
+        links = await idbStore.getAll();
+      } catch (err) {
+        console.error('IndexedDB init failed:', err);
+        // App still works — just without persisted data
+      }
 
       gistToken = localStorage.getItem('ls_gist_token') || '';
       gistId = localStorage.getItem('ls_gist_id') || '';
-      if (gistToken) elGistTokenInput.value = gistToken;
+      if (gistToken && elGistTokenInput) elGistTokenInput.value = gistToken;
 
       updateUI();
 
