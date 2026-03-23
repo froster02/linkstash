@@ -281,6 +281,133 @@
         const tab = document.querySelector(`.nav-tab[data-page="${shortcutPage}"]`);
         if (tab) switchPage(shortcutPage, tab);
       }
+
+      // ── Google Drive Sync ──
+      initDriveSync();
+    }
+
+    // ═══════════════════════════════════════════
+    // GOOGLE DRIVE UI WIRING
+    // ═══════════════════════════════════════════
+    function initDriveSync() {
+      if (typeof driveSync === 'undefined') return;
+
+      driveSync.init((isSignedIn, profile) => {
+        updateDriveUI(isSignedIn, profile);
+        if (isSignedIn) {
+          // Check last backup info
+          driveSync.getBackupInfo().then(info => {
+            const el = document.getElementById('drive-last-backup');
+            if (info && el) {
+              el.textContent = `Last backup: ${formatDriveTime(info.modifiedTime)}`;
+            } else if (el) {
+              el.textContent = 'No backup yet';
+            }
+          });
+        }
+      });
+
+      // Sign in
+      const signInBtn = document.getElementById('drive-signin-btn');
+      if (signInBtn) {
+        signInBtn.addEventListener('click', () => driveSync.signIn());
+      }
+
+      // Backup
+      const backupBtn = document.getElementById('drive-backup-btn');
+      if (backupBtn) {
+        backupBtn.addEventListener('click', async () => {
+          try {
+            backupBtn.textContent = 'Backing up...';
+            backupBtn.disabled = true;
+            await driveSync.backup(links);
+            const el = document.getElementById('drive-last-backup');
+            if (el) el.textContent = `Last backup: just now`;
+            showToast('☁️ Backed up to Google Drive!', 'success');
+          } catch (err) {
+            console.error('Backup failed:', err);
+            showToast('Backup failed: ' + err.message, 'error');
+          } finally {
+            backupBtn.textContent = '☁️ Backup Now';
+            backupBtn.disabled = false;
+          }
+        });
+      }
+
+      // Restore
+      const restoreBtn = document.getElementById('drive-restore-btn');
+      if (restoreBtn) {
+        restoreBtn.addEventListener('click', async () => {
+          try {
+            restoreBtn.textContent = 'Restoring...';
+            restoreBtn.disabled = true;
+            const data = await driveSync.restore();
+            if (!data || !data.links) {
+              showToast('No backup found on Drive', 'error');
+              return;
+            }
+            // Merge: add links that don't exist locally (by URL)
+            const existingUrls = new Set(links.map(l => l.url));
+            let added = 0;
+            for (const l of data.links) {
+              if (!existingUrls.has(l.url)) {
+                links.push(l);
+                existingUrls.add(l.url);
+                added++;
+              }
+            }
+            if (added > 0) {
+              await idbStore.replaceAll(links);
+              updateUI();
+            }
+            showToast(`📥 Restored ${added} new links from Drive`, 'success');
+          } catch (err) {
+            console.error('Restore failed:', err);
+            showToast('Restore failed: ' + err.message, 'error');
+          } finally {
+            restoreBtn.textContent = '📥 Restore';
+            restoreBtn.disabled = false;
+          }
+        });
+      }
+
+      // Sign out
+      const signOutBtn = document.getElementById('drive-signout-btn');
+      if (signOutBtn) {
+        signOutBtn.addEventListener('click', () => driveSync.signOut());
+      }
+    }
+
+    function updateDriveUI(isSignedIn, profile) {
+      const signedOutEl = document.getElementById('drive-signed-out');
+      const signedInEl = document.getElementById('drive-signed-in');
+      if (!signedOutEl || !signedInEl) return;
+
+      if (isSignedIn && profile) {
+        signedOutEl.style.display = 'none';
+        signedInEl.style.display = 'flex';
+        const avatarEl = document.getElementById('drive-avatar');
+        const nameEl = document.getElementById('drive-name');
+        const emailEl = document.getElementById('drive-email');
+        if (avatarEl) avatarEl.src = profile.picture || '';
+        if (nameEl) nameEl.textContent = profile.name || 'Google User';
+        if (emailEl) emailEl.textContent = profile.email || '';
+      } else {
+        signedOutEl.style.display = 'flex';
+        signedInEl.style.display = 'none';
+      }
+    }
+
+    function formatDriveTime(isoString) {
+      try {
+        const d = new Date(isoString);
+        const now = new Date();
+        const diff = now - d;
+        if (diff < 60000) return 'just now';
+        if (diff < 3600000) return Math.floor(diff / 60000) + 'm ago';
+        if (diff < 86400000) return Math.floor(diff / 3600000) + 'h ago';
+        return d.toLocaleDateString();
+      } catch { return isoString; }
     }
 
     // ═══════════════════════════════════════════
@@ -611,6 +738,10 @@
 
       // Sync to gist in background
       if (gistToken) syncToGist();
+      // Auto-backup to Drive if signed in
+      if (typeof driveSync !== 'undefined' && driveSync.isSignedIn()) {
+        driveSync.backup(links).catch(err => console.error('Auto Drive backup failed:', err));
+      }
     }
 
     // ═══════════════════════════════════════════
