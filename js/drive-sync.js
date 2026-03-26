@@ -55,9 +55,13 @@ const driveSync = (() => {
           return;
         }
         accessToken = resp.access_token;
-        // Fetch user profile
+        // Immediately notify UI of sign-in (don't wait for profile)
+        if (onAuthChange) onAuthChange(true, null);
+        // Then fetch profile in background and update UI again
         fetchUserProfile().then(() => {
           if (onAuthChange) onAuthChange(true, userProfile);
+        }).catch(err => {
+          console.warn('Profile fetch failed, but sign-in succeeded:', err);
         });
       },
     });

@@ -1,4 +1,4 @@
-const CACHE = 'linkstash-v4';
+const CACHE = 'linkstash-v5';
 const ASSETS = [
   '/',
   '/index.html',
