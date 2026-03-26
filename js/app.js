@@ -248,19 +248,20 @@
         renderFeed(true);
       });
 
-      // bottom nav selection — event delegation for cross-browser reliability
-      document.getElementById('bottom-nav').addEventListener('click', (e) => {
-        const tab = e.target.closest('.nav-tab');
-        if (!tab || !tab.dataset.page) return;
-        switchPage(tab.dataset.page, tab);
-      });
-      document.getElementById('bottom-nav').addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          const tab = e.target.closest('.nav-tab');
-          if (!tab || !tab.dataset.page) return;
-          e.preventDefault();
+      // bottom nav selection — click + keyboard + touch
+      document.querySelectorAll('.nav-tab').forEach(tab => {
+        const switchHandler = (e) => {
+          if (e.type === 'touchstart') e.preventDefault(); // prevent double fire with click
           switchPage(tab.dataset.page, tab);
-        }
+        };
+        tab.addEventListener('click', switchHandler);
+        tab.addEventListener('touchstart', switchHandler, { passive: false });
+        tab.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            switchPage(tab.dataset.page, tab);
+          }
+        });
       });
 
       // Check if opened via share sheet (URL params)
