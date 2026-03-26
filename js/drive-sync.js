@@ -46,10 +46,13 @@ const driveSync = (() => {
       console.warn('Google Identity Services not loaded');
       return;
     }
+    let isAutoSignInAttempt = false;
+
     tokenClient = google.accounts.oauth2.initTokenClient({
       client_id: CLIENT_ID,
       scope: SCOPES,
       callback: (resp) => {
+        isAutoSignInAttempt = false;
         if (resp.error) {
           console.error('OAuth error:', resp);
           return;
@@ -64,6 +67,11 @@ const driveSync = (() => {
         }).catch(err => {
           console.warn('Profile fetch failed, but sign-in succeeded:', err);
         });
+      },
+      error_callback: (err) => {
+        // Handles popup_blocked, popup_closed, and other GIS errors
+        console.warn('GIS error (popup blocked/closed):', err);
+        isAutoSignInAttempt = false;
       },
     });
     gisInited = true;
@@ -86,18 +94,19 @@ const driveSync = (() => {
       console.error('Token client not initialized. Is the Google script loaded?');
       return;
     }
-    if (accessToken) {
-      // Already have a token, request consent again (for re-auth)
-      tokenClient.requestAccessToken({ prompt: '' });
-    } else {
-      tokenClient.requestAccessToken({ prompt: 'consent' });
-    }
+    // Always use 'consent' for explicit user-initiated sign-in
+    tokenClient.requestAccessToken({ prompt: 'consent' });
   }
 
   function autoSignIn() {
     if (localStorage.getItem('ls_drive_linked') === 'true' && tokenClient) {
-      // Refresh token silently without prompting the user
-      tokenClient.requestAccessToken({ prompt: '' });
+      try {
+        isAutoSignInAttempt = true;
+        tokenClient.requestAccessToken({ prompt: '' });
+      } catch (err) {
+        console.warn('Auto sign-in failed:', err);
+        isAutoSignInAttempt = false;
+      }
     }
   }
 
