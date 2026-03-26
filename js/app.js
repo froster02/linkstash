@@ -51,6 +51,25 @@
       // Cache DOM elements first
       cacheElements();
 
+      // attach event listeners immediately so UI never hangs
+      try {
+        // bottom nav selection — click + keyboard + touch
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+          const switchHandler = (e) => {
+            if (e.type === 'touchstart') e.preventDefault();
+            switchPage(tab.dataset.page, tab);
+          };
+          tab.addEventListener('click', switchHandler);
+          tab.addEventListener('touchstart', switchHandler, { passive: false });
+          tab.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              switchPage(tab.dataset.page, tab);
+            }
+          });
+        });
+      } catch (err) { console.error('Nav attach error:', err); }
+
       // Load data — wrapped in try/catch so UI always works
       // even if IndexedDB fails (Safari Private, restricted browsers)
       try {
@@ -61,13 +80,17 @@
         // App still works — just without persisted data
       }
 
-      gistToken = localStorage.getItem('ls_gist_token') || '';
-      gistId = localStorage.getItem('ls_gist_id') || '';
-      if (gistToken && elGistTokenInput) elGistTokenInput.value = gistToken;
+      try {
+        gistToken = localStorage.getItem('ls_gist_token') || '';
+        gistId = localStorage.getItem('ls_gist_id') || '';
+        if (gistToken && elGistTokenInput) elGistTokenInput.value = gistToken;
+      } catch (err) {
+        console.warn('localStorage access failed:', err);
+      }
 
       updateUI();
 
-      // attach event listeners
+      // other event listeners
       elSearchInput.addEventListener('input', debounce(() => {
         const clearBtn = document.getElementById('search-clear');
         if (clearBtn) clearBtn.classList.toggle('visible', elSearchInput.value.length > 0);
@@ -136,36 +159,42 @@
       });
 
       // Notification init
-      const notifyBtn = document.getElementById('notify-btn');
-      if ('Notification' in window) {
-        if (Notification.permission === 'granted') {
-          notifyBtn.textContent = 'Enabled';
-          notifyBtn.classList.add('green');
-        } else if (Notification.permission === 'denied') {
-          notifyBtn.textContent = 'Blocked';
-        }
-        notifyBtn.addEventListener('click', async () => {
-          if (Notification.permission === 'granted') return showToast('Reminders already enabled', 'success');
-          try {
-            const perm = await Notification.requestPermission();
-            if (perm === 'granted') {
-              notifyBtn.textContent = 'Enabled';
-              notifyBtn.classList.add('green');
-              showToast('🔔 Reminders enabled!', 'success');
-              scheduleReminder();
-            } else {
-              notifyBtn.textContent = 'Blocked';
-              showToast('Notifications blocked by browser', 'error');
-            }
-          } catch (err) {
-            console.error(err);
-            showToast('Error requesting notification permission', 'error');
+      try {
+        const notifyBtn = document.getElementById('notify-btn');
+        if ('Notification' in window) {
+          if (Notification.permission === 'granted') {
+            notifyBtn.textContent = 'Enabled';
+            notifyBtn.classList.add('green');
+          } else if (Notification.permission === 'denied') {
+            notifyBtn.textContent = 'Blocked';
           }
-        });
-      } else {
-        notifyBtn.textContent = 'Not Supported';
-        notifyBtn.disabled = true;
-        notifyBtn.style.opacity = '0.5';
+          notifyBtn.addEventListener('click', async () => {
+            if (Notification.permission === 'granted') return showToast('Reminders already enabled', 'success');
+            try {
+              const perm = await Notification.requestPermission();
+              if (perm === 'granted') {
+                notifyBtn.textContent = 'Enabled';
+                notifyBtn.classList.add('green');
+                showToast('🔔 Reminders enabled!', 'success');
+                scheduleReminder();
+              } else {
+                notifyBtn.textContent = 'Blocked';
+                showToast('Notifications blocked by browser', 'error');
+              }
+            } catch (err) {
+              console.error(err);
+              showToast('Error requesting notification permission', 'error');
+            }
+          });
+        } else {
+          if (notifyBtn) {
+            notifyBtn.textContent = 'Not Supported';
+            notifyBtn.disabled = true;
+            notifyBtn.style.opacity = '0.5';
+          }
+        }
+      } catch (err) {
+        console.warn('Notifications init failed:', err);
       }
 
       document.getElementById('bulk-delete-btn').addEventListener('click', async () => {
@@ -248,21 +277,7 @@
         renderFeed(true);
       });
 
-      // bottom nav selection — click + keyboard + touch
-      document.querySelectorAll('.nav-tab').forEach(tab => {
-        const switchHandler = (e) => {
-          if (e.type === 'touchstart') e.preventDefault(); // prevent double fire with click
-          switchPage(tab.dataset.page, tab);
-        };
-        tab.addEventListener('click', switchHandler);
-        tab.addEventListener('touchstart', switchHandler, { passive: false });
-        tab.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            switchPage(tab.dataset.page, tab);
-          }
-        });
-      });
+
 
       // Check if opened via share sheet (URL params)
       const params = new URLSearchParams(window.location.search);
