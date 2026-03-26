@@ -305,10 +305,10 @@
     // ═══════════════════════════════════════════
     // GOOGLE DRIVE UI WIRING
     // ═══════════════════════════════════════════
-    function initDriveSync() {
+    async function initDriveSync() {
       if (typeof driveSync === 'undefined') return;
 
-      driveSync.init((isSignedIn, profile) => {
+      await driveSync.init((isSignedIn, profile) => {
         updateDriveUI(isSignedIn, profile);
         if (isSignedIn) {
           if (profile) {
