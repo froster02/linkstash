@@ -824,6 +824,7 @@
       <div class="link-card-accent accent-${l.type}"></div>
       <div class="link-card-body">
         <div class="link-card-top">
+          <input type="checkbox" class="bulk-checkbox" aria-label="Select for bulk action">
           <div class="link-favicon">${faviconHtml}</div>
           <div class="link-title-container">
             <div class="link-title">${escHtml(l.title)}</div>
@@ -857,11 +858,13 @@
       if (delBtn) delBtn.addEventListener('click', () => deleteLink(l.id));
 
       const bulkCheck = div.querySelector('.bulk-checkbox');
-      bulkCheck.addEventListener('change', e => {
-        if (e.target.checked) selectedLinkIds.add(l.id);
-        else selectedLinkIds.delete(l.id);
-        updateBulkUI();
-      });
+      if (bulkCheck) {
+        bulkCheck.addEventListener('change', e => {
+          if (e.target.checked) selectedLinkIds.add(l.id);
+          else selectedLinkIds.delete(l.id);
+          updateBulkUI();
+        });
+      }
       // also toggle checkbox when clicking the card background in bulk mode
       div.addEventListener('click', e => {
         if (isBulkMode && e.target === div || e.target.closest('.link-card-body') && !e.target.closest('button') && !e.target.closest('a')) {
