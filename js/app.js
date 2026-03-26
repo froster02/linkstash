@@ -295,6 +295,7 @@
       driveSync.init((isSignedIn, profile) => {
         updateDriveUI(isSignedIn, profile);
         if (isSignedIn) {
+          showToast(`✅ Successfully signed in as ${profile.name || 'Google User'}`, 'success');
           // Check last backup info
           driveSync.getBackupInfo().then(info => {
             const el = document.getElementById('drive-last-backup');
@@ -383,15 +384,15 @@
       const signedInEl = document.getElementById('drive-signed-in');
       if (!signedOutEl || !signedInEl) return;
 
-      if (isSignedIn && profile) {
+      if (isSignedIn) {
         signedOutEl.style.display = 'none';
         signedInEl.style.display = 'flex';
         const avatarEl = document.getElementById('drive-avatar');
         const nameEl = document.getElementById('drive-name');
         const emailEl = document.getElementById('drive-email');
-        if (avatarEl) avatarEl.src = profile.picture || '';
-        if (nameEl) nameEl.textContent = profile.name || 'Google User';
-        if (emailEl) emailEl.textContent = profile.email || '';
+        if (avatarEl) avatarEl.src = profile?.picture || '';
+        if (nameEl) nameEl.textContent = profile?.name || 'Google User';
+        if (emailEl) emailEl.textContent = profile?.email || '';
       } else {
         signedOutEl.style.display = 'flex';
         signedInEl.style.display = 'none';

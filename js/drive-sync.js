@@ -8,7 +8,7 @@
 const driveSync = (() => {
   // ── CONFIG ──
   const CLIENT_ID = '968567278491-t8fjcbug4aoffust7f20950n2dm1gjeh.apps.googleusercontent.com';
-  const SCOPES = 'https://www.googleapis.com/auth/drive.appdata';
+  const SCOPES = 'https://www.googleapis.com/auth/drive.appdata profile email';
   const BACKUP_FILENAME = 'linkstash_backup.json';
   const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
 
