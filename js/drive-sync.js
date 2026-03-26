@@ -55,6 +55,7 @@ const driveSync = (() => {
           return;
         }
         accessToken = resp.access_token;
+        localStorage.setItem('ls_drive_linked', 'true');
         // Immediately notify UI of sign-in (don't wait for profile)
         if (onAuthChange) onAuthChange(true, null);
         // Then fetch profile in background and update UI again
@@ -93,13 +94,23 @@ const driveSync = (() => {
     }
   }
 
+  function autoSignIn() {
+    if (localStorage.getItem('ls_drive_linked') === 'true' && tokenClient) {
+      // Refresh token silently without prompting the user
+      tokenClient.requestAccessToken({ prompt: '' });
+    }
+  }
+
   function signOut() {
+    localStorage.removeItem('ls_drive_linked');
     if (accessToken) {
       google.accounts.oauth2.revoke(accessToken, () => {
         accessToken = null;
         userProfile = null;
         if (onAuthChange) onAuthChange(false, null);
       });
+    } else {
+      if (onAuthChange) onAuthChange(false, null);
     }
   }
 
@@ -237,6 +248,7 @@ const driveSync = (() => {
   return {
     init,
     signIn,
+    autoSignIn,
     signOut,
     isSignedIn,
     getProfile,

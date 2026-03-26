@@ -311,7 +311,9 @@
       driveSync.init((isSignedIn, profile) => {
         updateDriveUI(isSignedIn, profile);
         if (isSignedIn) {
-          showToast(`✅ Successfully signed in as ${profile.name || 'Google User'}`, 'success');
+          if (profile) {
+            showToast(`✅ Google Drive connected: ${profile.name}`, 'success');
+          }
           // Check last backup info
           driveSync.getBackupInfo().then(info => {
             const el = document.getElementById('drive-last-backup');
@@ -321,6 +323,27 @@
               el.textContent = 'No backup yet';
             }
           });
+
+          // Auto-sync Feed in background
+          driveSync.restore().then(async data => {
+            if (data && data.links) {
+              const existingUrls = new Set(links.map(l => l.url));
+              let added = 0;
+              for (const l of data.links) {
+                if (!existingUrls.has(l.url)) {
+                  links.push(l);
+                  existingUrls.add(l.url);
+                  added++;
+                }
+              }
+              if (added > 0) {
+                links.sort((a, b) => new Date(b.saved) - new Date(a.saved));
+                await idbStore.replaceAll(links);
+                updateUI();
+                showToast(`📥 Auto-synced ${added} new links from Drive`, 'success');
+              }
+            }
+          }).catch(err => console.debug('Drive auto-sync non-critical error:', err));
         }
       });
 
@@ -328,6 +351,11 @@
       const signInBtn = document.getElementById('drive-signin-btn');
       if (signInBtn) {
         signInBtn.addEventListener('click', () => driveSync.signIn());
+      }
+
+      // Automatically sign in silently if previously linked
+      if (driveSync.autoSignIn) {
+        driveSync.autoSignIn();
       }
 
       // Backup
