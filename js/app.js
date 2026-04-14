@@ -243,7 +243,7 @@
           document.getElementById('bulk-tag-modal').classList.remove('visible');
           return;
         }
-        const newTags = val.split(',').map(t => t.trim().toLowerCase().replace(/^#/, '')).filter(Boolean).map(t => '#' + t);
+        const newTags = val.split(',').map(normalizeTag).filter(Boolean);
 
         // Add new tags to all selected links
         let updatedCount = 0;
@@ -327,19 +327,10 @@
           // Auto-sync Feed in background
           driveSync.restore().then(async data => {
             if (data && data.links) {
-              const existingUrls = new Set(links.map(l => l.url));
-              let added = 0;
-              for (const l of data.links) {
-                if (!existingUrls.has(l.url)) {
-                  links.push(l);
-                  existingUrls.add(l.url);
-                  added++;
-                }
-              }
+              const added = mergeRemoteLinks(data.links);
+              await idbStore.replaceAll(links);
+              updateUI();
               if (added > 0) {
-                links.sort((a, b) => new Date(b.saved) - new Date(a.saved));
-                await idbStore.replaceAll(links);
-                updateUI();
                 showToast(`📥 Auto-synced ${added} new links from Drive`, 'success');
               }
             }
@@ -391,20 +382,9 @@
               showToast('No backup found on Drive', 'error');
               return;
             }
-            // Merge: add links that don't exist locally (by URL)
-            const existingUrls = new Set(links.map(l => l.url));
-            let added = 0;
-            for (const l of data.links) {
-              if (!existingUrls.has(l.url)) {
-                links.push(l);
-                existingUrls.add(l.url);
-                added++;
-              }
-            }
-            if (added > 0) {
-              await idbStore.replaceAll(links);
-              updateUI();
-            }
+            const added = mergeRemoteLinks(data.links);
+            await idbStore.replaceAll(links);
+            updateUI();
             showToast(`📥 Restored ${added} new links from Drive`, 'success');
           } catch (err) {
             console.error('Restore failed:', err);
@@ -441,6 +421,40 @@
         signedOutEl.style.display = 'flex';
         signedInEl.style.display = 'none';
       }
+    }
+
+    // Merge a remote link list into our local `links` array.
+     // Dedupe by id AND url; for matches, prefer the entry that's `read=true`
+     // and keep the most recent saved timestamp so read state survives across devices.
+    function mergeRemoteLinks(remote) {
+      if (!Array.isArray(remote)) return 0;
+      const byId = new Map(links.map(l => [l.id, l]));
+      const byUrl = new Map(links.map(l => [l.url, l]));
+      let added = 0;
+      for (const r of remote) {
+        if (!r || !r.url) continue;
+        const localById = r.id ? byId.get(r.id) : null;
+        const localByUrl = byUrl.get(r.url);
+        const local = localById || localByUrl;
+        if (local) {
+          // Merge state: union tags, OR'd read flag, keep older saved timestamp
+          const localTags = local.tags || (local.tag ? [local.tag] : []);
+          const remoteTags = r.tags || (r.tag ? [r.tag] : []);
+          local.tags = Array.from(new Set([...localTags, ...remoteTags].map(normalizeTag).filter(Boolean)));
+          local.read = !!(local.read || r.read);
+          if (r.saved && (!local.saved || new Date(r.saved) < new Date(local.saved))) {
+            local.saved = r.saved;
+          }
+          if (!local.title && r.title) local.title = r.title;
+        } else {
+          links.push(r);
+          if (r.id) byId.set(r.id, r);
+          byUrl.set(r.url, r);
+          added++;
+        }
+      }
+      links.sort((a, b) => new Date(b.saved) - new Date(a.saved));
+      return added;
     }
 
     function formatDriveTime(isoString) {
@@ -589,12 +603,20 @@
       elPreviewType.textContent = info.label;
       elPreviewDomain.textContent = getDomain(url);
 
-      // Try loading favicon as img
+      // Try loading favicon as img (DOM-built to avoid inline-handler XSS)
       const faviconUrl = getFaviconUrl(url);
+      const faviconDiv = elPreviewFavicon;
+      faviconDiv.replaceChildren();
       if (faviconUrl) {
-        const faviconDiv = elPreviewFavicon;
-        const safeEmojiAttr = escAttr(info.emoji);
-        faviconDiv.innerHTML = `<img src="${faviconUrl}" onerror="this.outerHTML='${safeEmojiAttr}'" />`;
+        const img = document.createElement('img');
+        img.src = faviconUrl;
+        img.alt = '';
+        img.addEventListener('error', () => {
+          faviconDiv.textContent = info.emoji;
+        });
+        faviconDiv.appendChild(img);
+      } else {
+        faviconDiv.textContent = info.emoji;
       }
 
       // Title — try to guess from URL path, then fetch real title
@@ -686,9 +708,8 @@
       customInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
-          const val = customInput.value.trim();
-          if (val) {
-            const newTag = val.startsWith('#') ? val : '#' + val;
+          const newTag = normalizeTag(customInput.value);
+          if (newTag) {
             if (!selectedTags.includes(newTag)) {
               selectedTags.push(newTag);
               // Create new chip for it
@@ -743,7 +764,17 @@
       if (!raw) { showToast('⚠️ Paste a URL first', 'error'); return; }
 
       let url = raw;
-      if (!url.startsWith('http')) url = 'https://' + url;
+      if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+
+      // Validate it's a real http(s) URL
+      try {
+        const parsed = new URL(url);
+        if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') throw new Error();
+        url = parsed.href;
+      } catch {
+        showToast('⚠️ Invalid URL', 'error');
+        return;
+      }
 
       // URL Deduplication check
       if (links.some(l => l.url === url)) {
@@ -812,32 +843,30 @@
       const timeAgo = getTimeAgo(l.saved);
       const faviconUrl = getFaviconUrl(l.url);
       const safeEmoji = escHtml(l.emoji || '🔗');
-      const safeEmojiAttr = escAttr(safeEmoji);
-      const faviconHtml = faviconUrl
-        ? `<img src="${faviconUrl}" onerror="this.outerHTML='${safeEmojiAttr}'" />`
-        : safeEmoji;
+      const safeType = escAttr(l.type || 'link');
+      const safeHref = sanitizeHref(l.url);
 
       const linkTags = l.tags || (l.tag ? [l.tag] : []);
-      const tagsHtml = linkTags.map(t => `<span class="link-tag tag-${l.type}">${escHtml(t)}</span>`).join('');
+      const tagsHtml = linkTags.map(t => `<span class="link-tag tag-${safeType}">${escHtml(t)}</span>`).join('');
 
       div.innerHTML = `
-      <div class="link-card-accent accent-${l.type}"></div>
+      <div class="link-card-accent accent-${safeType}"></div>
       <div class="link-card-body">
         <div class="link-card-top">
           <input type="checkbox" class="bulk-checkbox" aria-label="Select for bulk action">
-          <div class="link-favicon">${faviconHtml}</div>
+          <div class="link-favicon"></div>
           <div class="link-title-container">
             <div class="link-title">${escHtml(l.title)}</div>
-            <a class="open-icon" href="${l.url}" target="_blank" title="Open link" aria-label="Open link">Open</a>
+            <a class="open-icon" href="${escHtml(safeHref)}" target="_blank" rel="noopener noreferrer" title="Open link" aria-label="Open link">Open</a>
           </div>
         </div>
         <div class="link-card-meta">
-          <span class="link-domain">${l.domain}</span>
+          <span class="link-domain">${escHtml(l.domain)}</span>
           ${tagsHtml}
           <span class="link-time">${timeAgo}</span>
         </div>
         <div class="link-card-actions">
-          <span class="link-type-badge">${l.typeLabel}</span>
+          <span class="link-type-badge">${escHtml(l.typeLabel)}</span>
           <div class="card-btns">
             <button class="card-btn" data-action="toggle-read" aria-label="${l.read ? 'Mark as unread' : 'Mark as read'}">${l.read ? '📖' : '✓'}</button>
             <button class="card-btn" data-action="edit" aria-label="Edit link">✏️</button>
@@ -847,6 +876,19 @@
         </div>
       </div>
     `;
+      // Favicon: build via DOM to avoid inline-handler XSS
+      const favSlot = div.querySelector('.link-favicon');
+      if (faviconUrl) {
+        const img = document.createElement('img');
+        img.src = faviconUrl;
+        img.alt = '';
+        img.addEventListener('error', () => {
+          favSlot.textContent = l.emoji || '🔗';
+        });
+        favSlot.appendChild(img);
+      } else {
+        favSlot.textContent = l.emoji || '🔗';
+      }
       // attach listeners to buttons
       const readBtn = div.querySelector('button[data-action="toggle-read"]');
       const editBtn = div.querySelector('button[data-action="edit"]');
@@ -867,10 +909,10 @@
       }
       // also toggle checkbox when clicking the card background in bulk mode
       div.addEventListener('click', e => {
-        if (isBulkMode && e.target === div || e.target.closest('.link-card-body') && !e.target.closest('button') && !e.target.closest('a')) {
-          bulkCheck.checked = !bulkCheck.checked;
-          bulkCheck.dispatchEvent(new Event('change'));
-        }
+        if (!isBulkMode) return;
+        if (e.target.closest('button') || e.target.closest('a') || e.target === bulkCheck) return;
+        bulkCheck.checked = !bulkCheck.checked;
+        bulkCheck.dispatchEvent(new Event('change'));
       });
 
       return div;
@@ -1023,6 +1065,21 @@
 
     function escHtml(s) { return s ? String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') : ''; }
     function escAttr(s) { return s ? String(s).replace(/'/g, "\\'") : ''; }
+    // Only allow http(s) URLs in href to prevent javascript:/data: XSS via imported data
+    function sanitizeHref(u) {
+      if (!u) return '#';
+      try {
+        const parsed = new URL(u);
+        if (parsed.protocol === 'http:' || parsed.protocol === 'https:') return parsed.href;
+      } catch {}
+      return '#';
+    }
+    // Normalize a tag: lowercase, ensure leading #, strip extra # and whitespace
+    function normalizeTag(t) {
+      if (!t) return '';
+      const cleaned = String(t).trim().toLowerCase().replace(/^#+/, '').replace(/\s+/g, '-');
+      return cleaned ? '#' + cleaned : '';
+    }
 
     function getTimeAgo(iso) {
       const diff = Date.now() - new Date(iso).getTime();
@@ -1065,8 +1122,7 @@
       if (title) link.title = title;
 
       const tagsRaw = document.getElementById('edit-tags-input').value;
-      const tagsRawArr = tagsRaw.split(',').map(s => s.trim()).filter(Boolean);
-      const finalTags = tagsRawArr.map(t => t.startsWith('#') ? t : '#' + t);
+      const finalTags = Array.from(new Set(tagsRaw.split(',').map(normalizeTag).filter(Boolean)));
       link.tags = finalTags.length ? finalTags : ['#saved'];
       link.tag = finalTags.length ? finalTags[0] : '#saved'; // backcompat
 
@@ -1184,14 +1240,22 @@
     // GITHUB GIST SYNC
     // ═══════════════════════════════════════════
     async function findExistingGist(token) {
+      // Paginate so we don't miss the gist if user has > 30 gists.
       try {
-        const res = await fetch('https://api.github.com/gists', {
-          headers: { 'Authorization': `token ${token}` }
-        });
-        if (!res.ok) return null;
-        const gists = await res.json();
-        const existing = gists.find(g => g.description === 'LinkStash — My saved links' && g.files['linkstash.json']);
-        return existing || null;
+        for (let page = 1; page <= 10; page++) {
+          const res = await fetch(`https://api.github.com/gists?per_page=100&page=${page}`, {
+            headers: { 'Authorization': `token ${token}` }
+          });
+          if (!res.ok) return null;
+          const gists = await res.json();
+          if (!Array.isArray(gists) || gists.length === 0) return null;
+          const existing = gists.find(g =>
+            g.description === 'LinkStash — My saved links' && g.files && g.files['linkstash.json']
+          );
+          if (existing) return existing;
+          if (gists.length < 100) return null; // last page
+        }
+        return null;
       } catch (e) {
         return null;
       }
@@ -1349,8 +1413,8 @@
           const sw = await navigator.serviceWorker.ready;
           sw.showNotification('LinkStash Reminder', {
             body: `You have ${unread} unread links piled up. Take a moment to read them!`,
-            icon: '/linkstash/icon-192.png',
-            badge: '/linkstash/icon-192.png',
+            icon: 'assets/icons/icon-192.png',
+            badge: 'assets/icons/icon-192.png',
             tag: 'unread-reminder',
           });
         } catch (e) {
@@ -1363,18 +1427,21 @@
       const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = e => {
+      reader.onload = async e => {
         try {
           const data = JSON.parse(e.target.result);
           const imported = data.links || data;
           if (!Array.isArray(imported)) throw new Error();
-          // Merge, avoid duplicates by id
-          const existingIds = new Set(links.map(l => l.id));
-          const newLinks = imported.filter(l => !existingIds.has(l.id));
-          links = [...newLinks, ...links];
-          idbStore.replaceAll(links);
+          // Filter out anything without a safe http(s) URL — blocks javascript:/data: payloads
+          const safe = imported.filter(l => l && typeof l.url === 'string' && /^https?:\/\//i.test(l.url));
+          const skipped = imported.length - safe.length;
+          const added = mergeRemoteLinks(safe);
+          await idbStore.replaceAll(links);
           updateUI();
-          showToast(`✓ Imported ${newLinks.length} new links`, 'success');
+          const msg = skipped > 0
+            ? `✓ Imported ${added} new links (${skipped} skipped: invalid URL)`
+            : `✓ Imported ${added} new links`;
+          showToast(msg, 'success');
         } catch {
           showToast('✕ Invalid file format', 'error');
         }

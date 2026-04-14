@@ -41,20 +41,24 @@ const driveSync = (() => {
     });
   }
 
+  let isAutoSignInAttempt = false;
+
   function initTokenClient() {
     if (typeof google === 'undefined' || !google.accounts) {
       console.warn('Google Identity Services not loaded');
       return;
     }
-    let isAutoSignInAttempt = false;
 
     tokenClient = google.accounts.oauth2.initTokenClient({
       client_id: CLIENT_ID,
       scope: SCOPES,
       callback: (resp) => {
+        const wasAuto = isAutoSignInAttempt;
         isAutoSignInAttempt = false;
         if (resp.error) {
-          console.error('OAuth error:', resp);
+          // Silent auto-sign-in commonly fails with interaction_required — that's expected.
+          if (!wasAuto) console.error('OAuth error:', resp);
+          else console.debug('Silent auto sign-in skipped:', resp.error);
           return;
         }
         accessToken = resp.access_token;
@@ -99,14 +103,13 @@ const driveSync = (() => {
   }
 
   function autoSignIn() {
-    if (localStorage.getItem('ls_drive_linked') === 'true' && tokenClient) {
-      try {
-        isAutoSignInAttempt = true;
-        tokenClient.requestAccessToken({ prompt: '' });
-      } catch (err) {
-        console.warn('Auto sign-in failed:', err);
-        isAutoSignInAttempt = false;
-      }
+    if (localStorage.getItem('ls_drive_linked') !== 'true' || !tokenClient) return;
+    try {
+      isAutoSignInAttempt = true;
+      tokenClient.requestAccessToken({ prompt: '' });
+    } catch (err) {
+      console.warn('Auto sign-in failed:', err);
+      isAutoSignInAttempt = false;
     }
   }
 
