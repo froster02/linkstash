@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "python-http",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-I", "-c", "import os, sys\nROOT = '/Users/arushnaudiyal/Documents/Developer/linkstash'\nos.chdir(ROOT)\nfrom http.server import HTTPServer, SimpleHTTPRequestHandler\nclass H(SimpleHTTPRequestHandler):\n    def translate_path(self, path):\n        path = path.split('?',1)[0].split('#',1)[0]\n        path = path.lstrip('/')\n        return os.path.join(ROOT, path) if path else os.path.join(ROOT, 'index.html')\nprint('Serving', ROOT, 'on http://127.0.0.1:8000', flush=True)\nHTTPServer(('127.0.0.1', 8000), H).serve_forever()"],
+      "port": 8000
+    },
+    {
+      "name": "npx-serve",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "serve", "-l", "3000", "."],
+      "port": 3000
+    },
+    {
+      "name": "npx-http-server",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "http-server", "-p", "8080", "-c-1", "."],
+      "port": 8080
+    }
+  ]
+}

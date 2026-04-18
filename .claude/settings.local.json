@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rtk git:*)",
+      "Bash(rtk ls:*)",
+      "Bash(rtk read:*)",
+      "Bash(rtk wc:*)",
+      "Bash(rtk grep:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(python3 -I -c \"import os; os.chdir\\('/Users/arushnaudiyal/Documents/Developer/linkstash'\\); print\\('cwd:', os.getcwd\\(\\)\\); print\\('index exists:', os.path.exists\\('index.html'\\)\\)\")",
+      "Bash(node -c /Users/arushnaudiyal/Documents/Developer/linkstash/js/app.js)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
+    ]
+  }
+}
