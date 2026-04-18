@@ -191,3 +191,33 @@ select { appearance: none; padding-right: 24px; }
   .nav-tab-icon { font-size: 18px !important; }
   .nav-tab { font-size: 7px !important; }
 }
+
+/* ── Pinned links ───────────────────────────────────────── */
+.link-card.pinned {
+  box-shadow: 0 0 0 1.5px rgba(255, 200, 60, 0.35), 0 4px 20px rgba(255, 200, 60, 0.08) !important;
+}
+.link-card.pinned .link-card-accent {
+  background: linear-gradient(180deg, #ffc83c, #ff9f0a) !important;
+}
+/* Active state on the pin button */
+.card-btn.active {
+  opacity: 1 !important;
+  color: #ffc83c !important;
+}
+
+/* ── Stale links (unread > 90 days) ─────────────────────── */
+.link-card.stale {
+  opacity: 0.55;
+  transition: opacity 0.2s;
+}
+.link-card.stale:hover,
+.link-card.stale:focus-within {
+  opacity: 1;
+}
+.stale-badge {
+  font-size: 9px;
+  letter-spacing: 0.6px;
+  color: #ff6b6b;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
